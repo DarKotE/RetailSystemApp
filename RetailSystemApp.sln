@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RSADataManager", "RSADataMa
 EndProject
 Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "RSAData", "RSAData\RSAData.sqlproj", "{916BE9A2-CA66-451A-A771-B9D6A8A015EF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RSADesktopUI", "RSADesktopUI\RSADesktopUI.csproj", "{24CBACB8-0001-4653-BF90-A010AC0D85DA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -23,6 +25,10 @@ Global
 		{916BE9A2-CA66-451A-A771-B9D6A8A015EF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{916BE9A2-CA66-451A-A771-B9D6A8A015EF}.Release|Any CPU.Build.0 = Release|Any CPU
 		{916BE9A2-CA66-451A-A771-B9D6A8A015EF}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{24CBACB8-0001-4653-BF90-A010AC0D85DA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{24CBACB8-0001-4653-BF90-A010AC0D85DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{24CBACB8-0001-4653-BF90-A010AC0D85DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{24CBACB8-0001-4653-BF90-A010AC0D85DA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
