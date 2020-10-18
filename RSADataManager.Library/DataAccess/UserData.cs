@@ -10,11 +10,13 @@ namespace RSADataManager.Library.DataAccess
 {
     public class UserData
     {
-        public List<UserModel> GetUserById(string Id)
+        public UserModel GetUserById(string Id)
         {
             var sqlAccess = new SqlDataAccess();
             var p = new { Id = Id };
-            return sqlAccess.LoadData<UserModel, dynamic>("[dbo].[spUserLookup]", p, "RSAData");
+            return sqlAccess
+                .LoadData<UserModel, dynamic>("[dbo].[spUserLookup]", p, "RSAData")
+                .First();
         }
     }
 }

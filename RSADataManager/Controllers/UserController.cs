@@ -13,7 +13,7 @@ namespace RSADataManager.Controllers
     public class UserController : ApiController
     {
         
-        public List<UserModel> GetById()
+        public UserModel GetById()
         {
             string userId = RequestContext.Principal.Identity.GetUserId();
 
