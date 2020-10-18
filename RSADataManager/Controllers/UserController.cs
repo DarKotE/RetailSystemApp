@@ -9,10 +9,10 @@ using RSADataManager.Library.Models;
 
 namespace RSADataManager.Controllers
 {
-    [Authorize]    
+    [Authorize]
     public class UserController : ApiController
     {
-        
+        [HttpGet]
         public UserModel GetById()
         {
             string userId = RequestContext.Principal.Identity.GetUserId();
