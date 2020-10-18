@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Caliburn.Micro;
-using RSADesktopUI.Helpers;
+using RSADesktopUI.Library.Api;
 
 namespace RSADesktopUI.ViewModels
 {
@@ -72,7 +72,8 @@ namespace RSADesktopUI.ViewModels
         {
             try
             {
-                await _apiHelper.Authenticate(UserName, Password);
+                var result = await _apiHelper.Authenticate(UserName, Password);                
+                await _apiHelper.GetLoggedInUserInfo(result.Access_Token);
                 ErrorMessage = String.Empty;
             }
             catch (Exception ex)
