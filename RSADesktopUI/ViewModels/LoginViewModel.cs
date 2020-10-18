@@ -41,6 +41,20 @@ namespace RSADesktopUI.ViewModels
                 NotifyOfPropertyChange(() => CanLogIn);
             }
         }
+        public bool IsErrorVisible => String.IsNullOrWhiteSpace(ErrorMessage);
+
+        private string _errorMessage;
+
+        public string ErrorMessage
+        {
+            get { return _errorMessage; }
+            set 
+            { 
+                _errorMessage = value;
+                NotifyOfPropertyChange(() => IsErrorVisible);
+                NotifyOfPropertyChange(() => ErrorMessage);
+            }
+        }
 
 
         //event fired via cal:Message.Attach.  
@@ -59,11 +73,12 @@ namespace RSADesktopUI.ViewModels
             try
             {
                 await _apiHelper.Authenticate(UserName, Password);
+                ErrorMessage = String.Empty;
             }
             catch (Exception ex)
             {
-
-                throw ex;
+                ErrorMessage = ex.Message;
+            
             }
         } 
 
