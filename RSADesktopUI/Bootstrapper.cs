@@ -21,6 +21,7 @@ namespace RSADesktopUI
         protected override void Configure()
         {
             _container.Instance(_container);
+
             _container
                 .Singleton<IWindowManager, WindowManager>()
                 .Singleton<IEventAggregator, EventAggregator>();
