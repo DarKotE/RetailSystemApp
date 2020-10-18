@@ -4,11 +4,20 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Caliburn.Micro;
+using RSADesktopUI.Helpers;
 
 namespace RSADesktopUI.ViewModels
 {
     public class LoginViewModel : Screen
     {
+        private IAPIHelper _apiHelper;
+        public LoginViewModel(IAPIHelper apiHelper)
+        {
+            _apiHelper = apiHelper;
+        }
+        
+        
+        
         private string _userName;
         public string UserName
         {
@@ -45,9 +54,17 @@ namespace RSADesktopUI.ViewModels
             UserName?.Length > 0 && Password?.Length > 0;
 
 
-        public void LogIn()
+        public async Task LogIn()
         {
-            throw new NotImplementedException();
+            try
+            {
+                await _apiHelper.Authenticate(UserName, Password);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
         } 
 
     }
