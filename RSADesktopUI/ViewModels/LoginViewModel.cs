@@ -41,7 +41,7 @@ namespace RSADesktopUI.ViewModels
                 NotifyOfPropertyChange(() => CanLogIn);
             }
         }
-        public bool IsErrorVisible => String.IsNullOrWhiteSpace(ErrorMessage);
+        public bool IsErrorVisible => !String.IsNullOrWhiteSpace(ErrorMessage);
 
         private string _errorMessage;
 
