@@ -4,17 +4,36 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Caliburn.Micro;
+using RSADesktopUI.EventModels;
 
 namespace RSADesktopUI.ViewModels
 {
-    public class ShellViewModel: Conductor<object>
+    public class ShellViewModel: Conductor<object>, IHandle<LogOnEventModel>
     {
-        private LoginViewModel _loginVM;
-        public ShellViewModel(LoginViewModel loginVM)
+        private SalesViewModel _salesVM;
+        private IEventAggregator _events;
+        private SimpleContainer _container;
+
+        public ShellViewModel(SalesViewModel salesVM,
+                              IEventAggregator events,
+                              SimpleContainer container)
         {
-            _loginVM = loginVM;
-            ActivateItem(_loginVM);
+            //start listening to events
+            _events = events;
+            _events.Subscribe(subscriber: this);
+
+            _salesVM = salesVM;
+
+            _container = container;
+
+            //get fresh login instance
+            ActivateItem(_container.GetInstance<LoginViewModel>());
         }
 
+        public void Handle(LogOnEventModel message)
+        {
+            //redirect to sales page
+            ActivateItem(_salesVM);
+        }
     }
 }

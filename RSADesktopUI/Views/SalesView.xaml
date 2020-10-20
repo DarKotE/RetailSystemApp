@@ -6,7 +6,6 @@
              xmlns:cal="clr-namespace:Caliburn.Micro;assembly=Caliburn.Micro.Platform"
              xmlns:local="clr-namespace:RSADesktopUI.Views"
              mc:Ignorable="d" Background="White" FontSize="24"
-             mc:Ignorable="d" 
              d:DesignHeight="500" d:DesignWidth="800">
     <Grid>
         <Grid.RowDefinitions>

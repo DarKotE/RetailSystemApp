@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Caliburn.Micro;
+using RSADesktopUI.EventModels;
 using RSADesktopUI.Library.Api;
 
 namespace RSADesktopUI.ViewModels
@@ -11,9 +12,12 @@ namespace RSADesktopUI.ViewModels
     public class LoginViewModel : Screen
     {
         private IAPIHelper _apiHelper;
-        public LoginViewModel(IAPIHelper apiHelper)
+        private IEventAggregator _events;
+
+        public LoginViewModel(IAPIHelper apiHelper, IEventAggregator events)
         {
             _apiHelper = apiHelper;
+            _events = events;
         }
         
         
@@ -72,9 +76,14 @@ namespace RSADesktopUI.ViewModels
         {
             try
             {
-                var result = await _apiHelper.Authenticate(UserName, Password);                
+                var result = await _apiHelper.Authenticate(UserName, Password);
+                //fetch additional information on user
                 await _apiHelper.GetLoggedInUserInfo(result.Access_Token);
+
+                //in absence of exeption clear errormessage textblock errors and hide it
                 ErrorMessage = String.Empty;
+
+                _events.PublishOnUIThread(new LogOnEventModel());
             }
             catch (Exception ex)
             {
