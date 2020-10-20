@@ -57,10 +57,8 @@ namespace RSADesktopUI.ViewModels
         }
 
 
-        private string _itemQuantity;
-        private readonly string _subTotal;
-
-        public string ItemQuantity
+        private int _itemQuantity;
+        public int ItemQuantity
         {
             get { return _itemQuantity; }
             set
