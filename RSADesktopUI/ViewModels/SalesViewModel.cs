@@ -42,9 +42,23 @@ namespace RSADesktopUI.ViewModels
             }
         }
 
-        private BindingList<ProductModel> _cart;
+        private ProductModel _selectedProduct;
 
-        public BindingList<ProductModel> Cart
+        public ProductModel SelectedProduct
+        {
+            get { return _selectedProduct; }
+            set 
+            {
+                _selectedProduct = value;
+                NotifyOfPropertyChange(() => SelectedProduct);
+                NotifyOfPropertyChange(() => CanAddToCart);
+
+            }
+        }
+
+
+        private BindingList<CartItemModel> _cart = new BindingList<CartItemModel>();
+        public BindingList<CartItemModel> Cart
         {
             get { return _cart; }
             set
@@ -58,7 +72,12 @@ namespace RSADesktopUI.ViewModels
         {
             get
             {
-                return "$0.00";
+                decimal subTotal = 0M;
+                foreach (var item in Cart)
+                {
+                    subTotal += item.Product.RetailPrice * item.QuantityInCart;
+                }
+                return subTotal.ToString("C");
             }
         }
         public string Tax
@@ -77,7 +96,7 @@ namespace RSADesktopUI.ViewModels
         }
 
 
-        private int _itemQuantity;
+        private int _itemQuantity = 1;
         public int ItemQuantity
         {
             get { return _itemQuantity; }
@@ -85,21 +104,49 @@ namespace RSADesktopUI.ViewModels
             {
                 _itemQuantity = value;
                 NotifyOfPropertyChange(() => ItemQuantity);
+                NotifyOfPropertyChange(() => CanAddToCart);
             }
         }
 
-        public bool CanAddToCart => true;
-            //UserName?.Length > 0 && Password?.Length > 0;        
+        public bool CanAddToCart =>
+            //condition
+            ItemQuantity > 0
+            && SelectedProduct?.QuantityInStock >= ItemQuantity;
+
         public void AddToCart()
         {
+            //try to findout if item already is in the cart
+            CartItemModel existingItem = Cart.FirstOrDefault(x => x.Product == SelectedProduct);
 
+
+            bool haveSameInCart = existingItem != null;
+            if (haveSameInCart)
+            {
+                existingItem.QuantityInCart += ItemQuantity;
+                //TODO replace this
+                Cart.Remove(existingItem);
+                Cart.Add(existingItem);
+            }
+            else
+            {
+                var item = new CartItemModel
+                {
+                    Product = SelectedProduct,
+                    QuantityInCart = ItemQuantity
+                };
+                Cart.Add(item);
+            }
+            SelectedProduct.QuantityInStock -= ItemQuantity;
+            ItemQuantity = 1;
+            NotifyOfPropertyChange(() => SubTotal);
+            NotifyOfPropertyChange(() => Cart);
         }
 
         public bool CanRemoveFromCart => true;
             //UserName?.Length > 0 && Password?.Length > 0;
         public void RemoveFromCart()
         {
-
+            NotifyOfPropertyChange(() => SubTotal);
         }
         public bool CanCheckOut => true;
     //UserName?.Length > 0 && Password?.Length > 0;

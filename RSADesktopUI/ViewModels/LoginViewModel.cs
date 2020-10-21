@@ -66,8 +66,10 @@ namespace RSADesktopUI.ViewModels
         }
 
 
-        public bool CanLogIn => 
-            UserName?.Length > 0 && Password?.Length > 0;
+        public bool CanLogIn =>
+            //condition
+            UserName?.Length > 0 
+            && Password?.Length > 0;
 
 
         public async Task LogIn()
