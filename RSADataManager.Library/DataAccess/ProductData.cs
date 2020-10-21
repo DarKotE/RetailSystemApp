@@ -10,7 +10,7 @@ namespace RSADataManager.Library.DataAccess
 {
     public class ProductData
     {
-        public List<ProductModel> GetProducts() 
+        public List<ProductModel> GetProducts()
         {
             var sqlAccess = new SqlDataAccess();
             return sqlAccess

@@ -20,8 +20,7 @@ namespace RSADesktopUI.ViewModels
             _events = events;
         }
         
-        
-        
+
         private string _userName;
         public string UserName
         {
@@ -33,7 +32,7 @@ namespace RSADesktopUI.ViewModels
             }
         }
 
-        //WPF forbids passwordbox binding, so it is done via Caliburn.Micro Action 
+        //WPF forbids direct passwordbox binding, so it is done via Caliburn.Micro Action
         private string _password;
         public string Password
         {
@@ -48,7 +47,6 @@ namespace RSADesktopUI.ViewModels
         public bool IsErrorVisible => !String.IsNullOrWhiteSpace(ErrorMessage);
 
         private string _errorMessage;
-
         public string ErrorMessage
         {
             get { return _errorMessage; }

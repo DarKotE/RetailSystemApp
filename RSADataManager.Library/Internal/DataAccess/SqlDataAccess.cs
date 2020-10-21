@@ -19,8 +19,7 @@ namespace RSADataManager.Library.Internal.DataAccess
 
         public List<T> LoadData<T,U>(string storedProcedure, U parameters, string connectionStringName)
         {
-            using (IDbConnection connection = 
-                new SqlConnection(connectionString: GetConnectionString(connectionStringName)))
+            using (IDbConnection connection = new SqlConnection(GetConnectionString(connectionStringName)))
             {
                 return connection
                     .Query<T>(storedProcedure, parameters, commandType: CommandType.StoredProcedure)
@@ -30,8 +29,7 @@ namespace RSADataManager.Library.Internal.DataAccess
 
         public void SaveData<T>(string storedProcedure, T parameters, string connectionStringName)
         {
-            using (IDbConnection connection =
-                new SqlConnection(connectionString: GetConnectionString(connectionStringName)))
+            using (IDbConnection connection = new SqlConnection(GetConnectionString(connectionStringName)))
             {
                 connection
                     .Execute(storedProcedure, parameters, commandType: CommandType.StoredProcedure);
