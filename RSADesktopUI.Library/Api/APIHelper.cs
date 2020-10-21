@@ -21,6 +21,14 @@ namespace RSADesktopUI.Library.Api
             InitializeClient();
             _loggedInUser= loggedInUser;
         }
+        
+        public HttpClient ApiClient
+        {
+            get
+            {
+                return _apiClient;
+            }
+        }
 
         private void InitializeClient()
         {

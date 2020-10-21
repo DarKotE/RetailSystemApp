@@ -8,17 +8,15 @@ using RSADataManager.Library.Models;
 
 namespace RSADataManager.Library.DataAccess
 {
-    public class UserData
+    public class ProductData
     {
-        public UserModel GetUserById(string Id)
+        public List<ProductModel> GetProducts() 
         {
             var sqlAccess = new SqlDataAccess();
-            var p = new { Id = Id };
             return sqlAccess
-                .LoadData<UserModel, dynamic>(storedProcedure: "[dbo].[spUserLookup]",
-                                              parameters: p,
-                                              connectionStringName: "RSAData")
-                .First();
+                .LoadData<ProductModel, dynamic>(storedProcedure: "[dbo].[spProduct_GetAll]",
+                                                 parameters: new { },
+                                                 connectionStringName: "RSAData");
         }
     }
 }
