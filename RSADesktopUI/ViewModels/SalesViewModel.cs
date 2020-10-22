@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Caliburn.Micro;
 using RSADesktopUI.Library.Api;
+using RSADesktopUI.Library.Helpers;
 using RSADesktopUI.Library.Models;
 
 namespace RSADesktopUI.ViewModels
@@ -13,10 +14,14 @@ namespace RSADesktopUI.ViewModels
     public class SalesViewModel : Screen
     {
         private IProductEndpoint _productEndpoint;
-        public SalesViewModel(IProductEndpoint productEndpoint)
+        private IConfigHelper _configHelper;
+        public SalesViewModel(IProductEndpoint productEndpoint,
+                              IConfigHelper configHelper)
         {
             _productEndpoint = productEndpoint;
-            
+            _configHelper = configHelper;
+
+
         }
 
         protected override async void OnViewLoaded(object view)
@@ -72,26 +77,50 @@ namespace RSADesktopUI.ViewModels
         {
             get
             {
-                decimal subTotal = 0M;
-                foreach (var item in Cart)
-                {
-                    subTotal += item.Product.RetailPrice * item.QuantityInCart;
-                }
-                return subTotal.ToString("C");
+                return CalculateSubTotal().ToString("C");
             }
         }
+
+        private decimal CalculateSubTotal()
+        {
+            decimal subTotal = 0M;
+            foreach (var item in Cart)
+            {
+                subTotal += item.Product.RetailPrice * item.QuantityInCart;
+            }
+
+            return subTotal;
+        }
+
         public string Tax
         {
             get
             {
-                return "$0.00";
+                return CalculateTax().ToString("C");
             }
         }
+
+        private decimal CalculateTax()
+        {
+            decimal taxAmount = 0M;
+            decimal taxRate = _configHelper.GetTaxRate() / 100;
+            foreach (var item in Cart)
+            {
+                if (item.Product.IsTaxable)
+                {
+                    taxAmount += item.Product.RetailPrice * item.QuantityInCart * taxRate;
+                }
+            }
+
+            return taxAmount;
+        }
+
         public string Total
         {
             get
             {
-                return "$0.00";
+                decimal total = CalculateSubTotal() + CalculateTax();
+                return total.ToString("C");
             }
         }
 
@@ -139,6 +168,8 @@ namespace RSADesktopUI.ViewModels
             SelectedProduct.QuantityInStock -= ItemQuantity;
             ItemQuantity = 1;
             NotifyOfPropertyChange(() => SubTotal);
+            NotifyOfPropertyChange(() => Tax);
+            NotifyOfPropertyChange(() => Total);
             NotifyOfPropertyChange(() => Cart);
         }
 
@@ -147,6 +178,8 @@ namespace RSADesktopUI.ViewModels
         public void RemoveFromCart()
         {
             NotifyOfPropertyChange(() => SubTotal);
+            NotifyOfPropertyChange(() => Tax);
+            NotifyOfPropertyChange(() => Total);
         }
         public bool CanCheckOut => true;
     //UserName?.Length > 0 && Password?.Length > 0;

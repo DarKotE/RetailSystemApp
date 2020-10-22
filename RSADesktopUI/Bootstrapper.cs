@@ -8,6 +8,7 @@ using Caliburn.Micro;
 using RSADesktopUI.Library.Api;
 using RSADesktopUI.ViewModels;
 using RSADesktopUI.Library.Models;
+using RSADesktopUI.Library.Helpers;
 
 namespace RSADesktopUI
 {
@@ -29,6 +30,7 @@ namespace RSADesktopUI
                 .Singleton<IWindowManager, WindowManager>()
                 .Singleton<IEventAggregator, EventAggregator>()
                 .Singleton<ILoggedInUserModel, LoggedInUserModel>()
+                .Singleton<IConfigHelper, ConfigHelper>()
                 .Singleton<IAPIHelper, APIHelper>();
 
             //TODO change it later to something more ordinary
