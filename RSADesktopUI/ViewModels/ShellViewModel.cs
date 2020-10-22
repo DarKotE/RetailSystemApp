@@ -12,11 +12,9 @@ namespace RSADesktopUI.ViewModels
     {
         private SalesViewModel _salesVM;
         private IEventAggregator _events;
-        private SimpleContainer _container;
 
         public ShellViewModel(SalesViewModel salesVM,
-                              IEventAggregator events,
-                              SimpleContainer container)
+                              IEventAggregator events)
         {
             //start listening to events
             _events = events;
@@ -24,10 +22,8 @@ namespace RSADesktopUI.ViewModels
 
             _salesVM = salesVM;
 
-            _container = container;
-
             //get fresh login instance
-            ActivateItem(_container.GetInstance<LoginViewModel>());
+            ActivateItem(IoC.Get<LoginViewModel>());
         }
 
         public void Handle(LogOnEventModel message)
