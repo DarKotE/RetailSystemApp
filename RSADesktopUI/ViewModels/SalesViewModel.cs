@@ -83,13 +83,8 @@ namespace RSADesktopUI.ViewModels
 
         private decimal CalculateSubTotal()
         {
-            decimal subTotal = 0M;
-            foreach (var item in Cart)
-            {
-                subTotal += item.Product.RetailPrice * item.QuantityInCart;
-            }
-
-            return subTotal;
+            return Cart
+                    .Sum(x => x.Product.RetailPrice * x.QuantityInCart);
         }
 
         public string Tax
@@ -102,17 +97,11 @@ namespace RSADesktopUI.ViewModels
 
         private decimal CalculateTax()
         {
-            decimal taxAmount = 0M;
             decimal taxRate = _configHelper.GetTaxRate() / 100;
-            foreach (var item in Cart)
-            {
-                if (item.Product.IsTaxable)
-                {
-                    taxAmount += item.Product.RetailPrice * item.QuantityInCart * taxRate;
-                }
-            }
+            return Cart
+                    .Where(x => x.Product.IsTaxable)
+                    .Sum(x => x.Product.RetailPrice * x.QuantityInCart * taxRate);
 
-            return taxAmount;
         }
 
         public string Total
