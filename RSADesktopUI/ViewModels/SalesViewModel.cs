@@ -159,7 +159,7 @@ namespace RSADesktopUI.ViewModels
             NotifyOfPropertyChange(() => SubTotal);
             NotifyOfPropertyChange(() => Tax);
             NotifyOfPropertyChange(() => Total);
-            NotifyOfPropertyChange(() => Cart);
+            NotifyOfPropertyChange(() => CanCheckOut);
         }
 
         public bool CanRemoveFromCart => true;
@@ -169,11 +169,35 @@ namespace RSADesktopUI.ViewModels
             NotifyOfPropertyChange(() => SubTotal);
             NotifyOfPropertyChange(() => Tax);
             NotifyOfPropertyChange(() => Total);
+            NotifyOfPropertyChange(() => CanCheckOut);
         }
-        public bool CanCheckOut => true;
-    //UserName?.Length > 0 && Password?.Length > 0;
+        public bool CanCheckOut
+        {
+            get
+            {
+                if (Cart.Count > 0)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+        }
+
+        
         public void CheckOut()
         {
+            var sale = new SaleModel();
+            foreach (var item in Cart)
+            {
+                sale.SaleDetails.Add(new SaleDetailModel
+                {
+                    ProductId = item.Product.Id,
+                    Quantity = item.QuantityInCart
+                });
+            }
 
         }
 
