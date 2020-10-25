@@ -1,13 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AutoMapper;
 using Caliburn.Micro;
 using RSADesktopUI.Library.Api;
 using RSADesktopUI.Library.Helpers;
 using RSADesktopUI.Library.Models;
+using RSADesktopUI.Models;
 
 namespace RSADesktopUI.ViewModels
 {
@@ -15,13 +18,16 @@ namespace RSADesktopUI.ViewModels
     {
         private IProductEndpoint _productEndpoint;
         private ISaleEndpoint _saleEndpoint;
+        private IMapper _mapper;
         private IConfigHelper _configHelper;
         public SalesViewModel(IProductEndpoint productEndpoint,
                               ISaleEndpoint saleEndpoint,
+                              IMapper mapper,
                               IConfigHelper configHelper)
         {
             _productEndpoint = productEndpoint;
             _saleEndpoint = saleEndpoint;
+            _mapper = mapper;
             _configHelper = configHelper;
 
 
@@ -36,11 +42,12 @@ namespace RSADesktopUI.ViewModels
         private async Task LoadProducts()
         {
             var productList = await _productEndpoint.GetAll();
-            Products = new BindingList<ProductModel>(productList);
+            var products = _mapper.Map<List<ProductDisplayModel>>(productList);
+            Products = new BindingList<ProductDisplayModel>(products);
         }
 
-        private BindingList<ProductModel> _products;
-        public BindingList<ProductModel> Products
+        private BindingList<ProductDisplayModel> _products;
+        public BindingList<ProductDisplayModel> Products
         {
             get { return _products; }
             set
@@ -50,9 +57,9 @@ namespace RSADesktopUI.ViewModels
             }
         }
 
-        private ProductModel _selectedProduct;
+        private ProductDisplayModel _selectedProduct;
 
-        public ProductModel SelectedProduct
+        public ProductDisplayModel SelectedProduct
         {
             get { return _selectedProduct; }
             set 
@@ -65,8 +72,8 @@ namespace RSADesktopUI.ViewModels
         }
 
 
-        private BindingList<CartItemModel> _cart = new BindingList<CartItemModel>();
-        public BindingList<CartItemModel> Cart
+        private BindingList<CartItemDisplayModel> _cart = new BindingList<CartItemDisplayModel>();
+        public BindingList<CartItemDisplayModel> Cart
         {
             get { return _cart; }
             set
@@ -137,20 +144,20 @@ namespace RSADesktopUI.ViewModels
         public void AddToCart()
         {
             //try to findout if item already is in the cart
-            CartItemModel existingItem = Cart.FirstOrDefault(x => x.Product == SelectedProduct);
+            CartItemDisplayModel existingItem = Cart.FirstOrDefault(x => x.Product == SelectedProduct);
 
 
             bool haveSameInCart = existingItem != null;
             if (haveSameInCart)
             {
                 existingItem.QuantityInCart += ItemQuantity;
-                //TODO replace this
-                Cart.Remove(existingItem);
-                Cart.Add(existingItem);
+                //TODO replace with proper notifier
+                //Cart.ResetBindings();
+                //Products.ResetBindings();
             }
             else
             {
-                var item = new CartItemModel
+                var item = new CartItemDisplayModel
                 {
                     Product = SelectedProduct,
                     QuantityInCart = ItemQuantity
