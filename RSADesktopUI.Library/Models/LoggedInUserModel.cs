@@ -14,5 +14,15 @@ namespace RSADesktopUI.Library.Models
         public string LastName { get; set; }
         public string EmailAddress { get; set; }
         public DateTime CreatedDate { get; set; }
+
+        public void Clear()
+        {
+            Token = String.Empty;
+            Id = String.Empty;
+            FirstName = String.Empty;
+            LastName = String.Empty;
+            EmailAddress = String.Empty;
+            CreatedDate = DateTime.MinValue;
+        }
     }
 }
