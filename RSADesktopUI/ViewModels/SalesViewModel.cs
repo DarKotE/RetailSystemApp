@@ -14,11 +14,14 @@ namespace RSADesktopUI.ViewModels
     public class SalesViewModel : Screen
     {
         private IProductEndpoint _productEndpoint;
+        private ISaleEndpoint _saleEndpoint;
         private IConfigHelper _configHelper;
         public SalesViewModel(IProductEndpoint productEndpoint,
+                              ISaleEndpoint saleEndpoint,
                               IConfigHelper configHelper)
         {
             _productEndpoint = productEndpoint;
+            _saleEndpoint = saleEndpoint;
             _configHelper = configHelper;
 
 
@@ -187,7 +190,7 @@ namespace RSADesktopUI.ViewModels
         }
 
         
-        public void CheckOut()
+        public async Task CheckOut()
         {
             var sale = new SaleModel();
             foreach (var item in Cart)
@@ -198,7 +201,7 @@ namespace RSADesktopUI.ViewModels
                     Quantity = item.QuantityInCart
                 });
             }
-
+            await _saleEndpoint.PostSale(sale);
         }
 
 

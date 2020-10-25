@@ -24,6 +24,7 @@ namespace RSADesktopUI
         protected override void Configure()
         {
             _container.Instance(_container)
+                .PerRequest<ISaleEndpoint, SaleEndpoint>()
                 .PerRequest<IProductEndpoint, ProductEndpoint>();
 
             _container

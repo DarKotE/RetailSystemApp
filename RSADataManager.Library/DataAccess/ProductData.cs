@@ -18,5 +18,13 @@ namespace RSADataManager.Library.DataAccess
                                                  parameters: new { },
                                                  connectionStringName: "RSAData");
         }
+        public ProductModel GetProductById(int productId)
+        {
+            var sqlAccess = new SqlDataAccess();
+            return sqlAccess
+                .LoadData<ProductModel, dynamic>(storedProcedure: "[dbo].[spProduct_GetById]",
+                                                 parameters: new { Id = productId },
+                                                 connectionStringName: "RSAData").FirstOrDefault();
+        }
     }
 }
