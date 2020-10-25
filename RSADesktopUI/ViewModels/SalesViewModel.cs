@@ -58,7 +58,6 @@ namespace RSADesktopUI.ViewModels
         }
 
         private ProductDisplayModel _selectedProduct;
-
         public ProductDisplayModel SelectedProduct
         {
             get { return _selectedProduct; }
@@ -67,6 +66,19 @@ namespace RSADesktopUI.ViewModels
                 _selectedProduct = value;
                 NotifyOfPropertyChange(() => SelectedProduct);
                 NotifyOfPropertyChange(() => CanAddToCart);
+
+            }
+        }
+
+        private CartItemDisplayModel _selectedCartItem;
+        public CartItemDisplayModel SelectedCartItem
+        {
+            get { return _selectedCartItem; }
+            set
+            {
+                _selectedCartItem = value;
+                NotifyOfPropertyChange(() => SelectedCartItem);
+                NotifyOfPropertyChange(() => CanRemoveFromCart);
 
             }
         }
@@ -151,14 +163,10 @@ namespace RSADesktopUI.ViewModels
             if (haveSameInCart)
             {
                 existingItem.QuantityInCart += ItemQuantity;
-                //TODO replace with proper notifier
-                //Cart.ResetBindings();
-                //Products.ResetBindings();
             }
             else
             {
-                var item = new CartItemDisplayModel
-                {
+                var item = new CartItemDisplayModel {
                     Product = SelectedProduct,
                     QuantityInCart = ItemQuantity
                 };
@@ -172,10 +180,20 @@ namespace RSADesktopUI.ViewModels
             NotifyOfPropertyChange(() => CanCheckOut);
         }
 
-        public bool CanRemoveFromCart => true;
-            //UserName?.Length > 0 && Password?.Length > 0;
+        public bool CanRemoveFromCart => !(SelectedCartItem is null) && SelectedCartItem?.Product.QuantityInStock > 0;
+
+
         public void RemoveFromCart()
         {
+            SelectedCartItem.Product.QuantityInStock++;
+            if (SelectedCartItem.QuantityInCart > 1)
+            {
+                SelectedCartItem.QuantityInCart--;
+            }
+            else
+            {
+                Cart.Remove(SelectedCartItem);
+            }
             NotifyOfPropertyChange(() => SubTotal);
             NotifyOfPropertyChange(() => Tax);
             NotifyOfPropertyChange(() => Total);
@@ -202,8 +220,7 @@ namespace RSADesktopUI.ViewModels
             var sale = new SaleModel();
             foreach (var item in Cart)
             {
-                sale.SaleDetails.Add(new SaleDetailModel
-                {
+                sale.SaleDetails.Add(new SaleDetailModel {
                     ProductId = item.Product.Id,
                     Quantity = item.QuantityInCart
                 });
