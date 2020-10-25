@@ -180,7 +180,7 @@ namespace RSADesktopUI.ViewModels
             NotifyOfPropertyChange(() => CanCheckOut);
         }
 
-        public bool CanRemoveFromCart => SelectedCartItem?.Product.QuantityInStock > 0;
+        public bool CanRemoveFromCart => SelectedCartItem?.QuantityInCart > 0;
 
 
         public void RemoveFromCart()
