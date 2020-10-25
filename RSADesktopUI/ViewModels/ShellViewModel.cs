@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Caliburn.Micro;
 using RSADesktopUI.EventModels;
+using RSADesktopUI.Library.Api;
 using RSADesktopUI.Library.Models;
 
 namespace RSADesktopUI.ViewModels
@@ -13,10 +14,13 @@ namespace RSADesktopUI.ViewModels
     {
         private SalesViewModel _salesVM;
         private ILoggedInUserModel _user;
+        private IAPIHelper _apiHelper;
         private IEventAggregator _events;
+
 
         public ShellViewModel(SalesViewModel salesVM,
                               ILoggedInUserModel user,
+                              IAPIHelper apiHelper,
                               IEventAggregator events)
         {
             //start listening to events
@@ -25,6 +29,7 @@ namespace RSADesktopUI.ViewModels
 
             _salesVM = salesVM;
             _user = user;
+            _apiHelper = apiHelper;
 
             //get fresh login instance
             ActivateItem(IoC.Get<LoginViewModel>());
@@ -40,6 +45,7 @@ namespace RSADesktopUI.ViewModels
         public void LogOut()
         {
             _user.Clear();
+            _apiHelper.LogOffUser();
             ActivateItem(IoC.Get<LoginViewModel>());
             NotifyOfPropertyChange(() => IsLoggedIn);
         }

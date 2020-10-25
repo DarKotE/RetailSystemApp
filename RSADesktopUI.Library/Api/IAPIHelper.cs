@@ -8,6 +8,7 @@ namespace RSADesktopUI.Library.Api
     {
         HttpClient ApiClient { get; }
         Task<AuthenticatedUser> Authenticate(string username, string password);
+        void LogOffUser();
         Task GetLoggedInUserInfo(string token);
     }
 }
