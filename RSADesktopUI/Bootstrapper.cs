@@ -9,6 +9,8 @@ using RSADesktopUI.Library.Api;
 using RSADesktopUI.ViewModels;
 using RSADesktopUI.Library.Models;
 using RSADesktopUI.Library.Helpers;
+using AutoMapper;
+using RSADesktopUI.Models;
 
 namespace RSADesktopUI
 {
@@ -20,9 +22,21 @@ namespace RSADesktopUI
         {
             Initialize();
         }
+        private IMapper ConfigureAutoMapper()
+        {
+            var config = new MapperConfiguration(cfg => {
+                cfg.CreateMap<ProductModel, ProductDisplayModel>();
+                cfg.CreateMap<CartItemModel, CartItemDisplayModel>();
+            });
+            var mapper = config.CreateMapper();
+            return mapper;
+        }
 
         protected override void Configure()
         {
+            IMapper mapper = ConfigureAutoMapper();
+            _container.Instance(mapper);
+
             _container.Instance(_container)
                 .PerRequest<ISaleEndpoint, SaleEndpoint>()
                 .PerRequest<IProductEndpoint, ProductEndpoint>();
@@ -44,6 +58,8 @@ namespace RSADesktopUI
                 .ForEach(viewModelType => _container.RegisterPerRequest(
                     viewModelType, viewModelType.ToString(), viewModelType));
         }
+
+
 
         protected override void OnStartup(object sender, StartupEventArgs e) 
         {
