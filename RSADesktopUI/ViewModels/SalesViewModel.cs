@@ -56,6 +56,15 @@ namespace RSADesktopUI.ViewModels
                 NotifyOfPropertyChange(() => Products);
             }
         }
+        private async Task ResetSalesViewModel()
+        {
+            Cart = new BindingList<CartItemDisplayModel>();
+            await LoadProducts();
+            NotifyOfPropertyChange(() => SubTotal);
+            NotifyOfPropertyChange(() => Tax);
+            NotifyOfPropertyChange(() => Total);
+            NotifyOfPropertyChange(() => CanCheckOut);
+        }
 
         private ProductDisplayModel _selectedProduct;
         public ProductDisplayModel SelectedProduct
@@ -227,6 +236,8 @@ namespace RSADesktopUI.ViewModels
                 });
             }
             await _saleEndpoint.PostSale(sale);
+
+            await ResetSalesViewModel();
         }
 
 
