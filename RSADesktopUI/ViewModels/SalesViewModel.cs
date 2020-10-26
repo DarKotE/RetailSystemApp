@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Dynamic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using AutoMapper;
 using Caliburn.Micro;
 using RSADesktopUI.Library.Api;
@@ -20,23 +22,50 @@ namespace RSADesktopUI.ViewModels
         private ISaleEndpoint _saleEndpoint;
         private IMapper _mapper;
         private IConfigHelper _configHelper;
+        private readonly StatusInfoViewModel _status;
+        private readonly IWindowManager _window;
+
         public SalesViewModel(IProductEndpoint productEndpoint,
                               ISaleEndpoint saleEndpoint,
                               IMapper mapper,
-                              IConfigHelper configHelper)
+                              IConfigHelper configHelper,
+                              StatusInfoViewModel status,
+                              IWindowManager window)
         {
             _productEndpoint = productEndpoint;
             _saleEndpoint = saleEndpoint;
             _mapper = mapper;
             _configHelper = configHelper;
-
-
+            _status = status;
+            _window = window;
         }
 
         protected override async void OnViewLoaded(object view)
         {
             base.OnViewLoaded(view);
-            await LoadProducts();
+            try
+            {
+                await LoadProducts();
+            }
+            catch (Exception ex)
+            {
+                dynamic settings = new ExpandoObject();
+                settings.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+                settings.ResizeMode = ResizeMode.NoResize;
+                settings.Title = "System Error";
+
+                if (ex.Message == "Unauthorized")
+                {
+                    _status.UpdateMessage("Unauthorized Access", "You have no permission to access Sales Form");
+                    _window.ShowDialog(_status, null, settings);
+                }
+                else
+                {
+                    _status.UpdateMessage("Fatal exeption", ex.Message);
+                    _window.ShowDialog(_status, null, settings);
+                }
+                TryClose();
+            }
         }
 
         private async Task LoadProducts()
