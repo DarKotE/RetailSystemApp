@@ -41,6 +41,12 @@ namespace RSADesktopUI.ViewModels
         {
             TryClose();
         }
+        public void UserManagement()
+        {
+            ActivateItem(IoC.Get<UserDisplayViewModel>());
+
+        }
+
 
         public void LogOut()
         {
