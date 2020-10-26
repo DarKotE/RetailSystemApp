@@ -14,13 +14,14 @@ namespace RSADataManager.Controllers
     [Authorize]
     public class SaleController : ApiController
     {
+        [Authorize(Roles = "Cashier")]
         public void Post(SaleModel sale)
         {
             var data = new SaleData();
             string userId = RequestContext.Principal.Identity.GetUserId();
             data.SaveSale(sale, userId);
         }
-
+        [Authorize(Roles = "Manager, Admin")]
         [Route("GetSalesReport")]
         public List<SaleReportModel> GetSaleReport()
         {

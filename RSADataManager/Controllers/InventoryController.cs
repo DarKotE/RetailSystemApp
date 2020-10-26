@@ -12,12 +12,14 @@ namespace RSADataManager.Controllers
     [Authorize]
     public class InventoryController : ApiController
     {
+        [Authorize(Roles = "Manager, Admin")]
         public List<InventoryModel> Get()
         {
             var data = new InventoryData();
             return data.GetInventory();
         }
 
+        [Authorize(Roles = "Admin")]
         public void Post(InventoryModel item)
         {
             var data = new InventoryData();

@@ -9,7 +9,7 @@ using RSADataManager.Library.Models;
 
 namespace RSADataManager.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Cashier")]
     public class ProductController : ApiController
     {
         public List<ProductModel> Get()
