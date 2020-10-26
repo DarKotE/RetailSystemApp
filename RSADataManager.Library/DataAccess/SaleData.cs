@@ -45,15 +45,36 @@ namespace RSADataManager.Library.DataAccess
             };
             sale.Total = sale.SubTotal + sale.Tax;
 
-            var sql = new SqlDataAccess();
-            sql.SaveData("dbo.spSale_Insert", sale, "RSAData");
-            sale.Id = sql.LoadData<int, dynamic>("spSale_Lookup", new { CashierId = sale.CashierId, SaleDate = sale.SaleDate },"RSAData").FirstOrDefault();
-            foreach (var item in details)
+            using (var sql = new SqlDataAccess()) 
             {
-                item.SaleId = sale.Id;
-                sql.SaveData("dbo.spSaleDetail_Insert", item, "RSAData");
+                try
+                {
+                    sql.StartTransaction("RSAData");
+                    sql.SaveDataInTransaction("dbo.spSale_Insert", sale);
+                    sale.Id = sql
+                        .LoadDataInTransaction<int, dynamic>("spSale_Lookup", new { CashierId = sale.CashierId, SaleDate = sale.SaleDate })
+                        .FirstOrDefault();
+                    foreach (var item in details)
+                    {
+                        item.SaleId = sale.Id;
+                        sql.SaveDataInTransaction("dbo.spSaleDetail_Insert", item);
+                    }
+                    sql.CommitTransaction();
+                }
+                catch
+                {
+                    sql.RollbackTransaction();
+                    throw;
+                }
             }
-            
+        }
+        public List<SaleReportModel> GetSaleReport()
+        {
+            var sql = new SqlDataAccess();
+            return sql
+                    .LoadData<SaleReportModel, dynamic>(storedProcedure: "dbo.spSale_SaleReport",
+                                                        parameters: new { },
+                                                        connectionStringName: "RSAData");
         }
 
     }
