@@ -20,5 +20,12 @@ namespace RSADataManager.Controllers
             string userId = RequestContext.Principal.Identity.GetUserId();
             data.SaveSale(sale, userId);
         }
+
+        [Route("GetSalesReport")]
+        public List<SaleReportModel> GetSaleReport()
+        {
+            var data = new SaleData();
+            return data.GetSaleReport();
+        }
     }
 }
