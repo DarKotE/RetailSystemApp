@@ -47,5 +47,44 @@ namespace RSADataManager.Controllers
                      }).ToList();
             }
         }
+
+        [Authorize(Roles = "Admin")]
+        [HttpGet]
+        [Route("api/User/Admin/GetAllRoles")]
+        public Dictionary<string, string> GetAllRoles()
+        {
+            using (var context = new ApplicationDbContext())
+            {
+                return context.Roles.ToDictionary(x => x.Id, x => x.Name);
+            }
+        }
+
+        [Authorize(Roles = "Admin")]
+        [HttpPost]
+        [Route("api/User/Admin/AddRole")]
+        public void AddRole(UserRolePairModel pair)
+        {
+            using (var context = new ApplicationDbContext())
+            {
+                var userStore = new UserStore<ApplicationUser>(context);
+                var userManager = new UserManager<ApplicationUser>(userStore);
+
+                userManager.AddToRole(pair.UserId, pair.RoleName);
+            }
+        }
+
+        [Authorize(Roles = "Admin")]
+        [HttpPost]
+        [Route("api/User/Admin/RemoveRole")]
+        public void RemoveRole(UserRolePairModel pair)
+        {
+            using (var context = new ApplicationDbContext())
+            {
+                var userStore = new UserStore<ApplicationUser>(context);
+                var userManager = new UserManager<ApplicationUser>(userStore);
+
+                userManager.RemoveFromRole(pair.UserId, pair.RoleName);
+            }
+        }
     }
 }
