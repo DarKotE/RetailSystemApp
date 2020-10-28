@@ -83,7 +83,7 @@ namespace RSADesktopUI.ViewModels
                 //in absence of exeption clear errormessage textblock errors and hide it
                 ErrorMessage = String.Empty;
 
-                _events.PublishOnUIThread(new LogOnEventModel());
+                await _events.PublishOnUIThreadAsync(new LogOnEventModel());
             }
             catch (Exception ex)
             {

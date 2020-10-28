@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Caliburn.Micro;
 using RSADesktopUI.EventModels;
@@ -25,41 +26,42 @@ namespace RSADesktopUI.ViewModels
         {
             //start listening to events
             _events = events;
-            _events.Subscribe(subscriber: this);
+            _events.SubscribeOnPublishedThread(subscriber: this);
 
             _salesVM = salesVM;
             _user = user;
             _apiHelper = apiHelper;
 
             //get fresh login instance
-            ActivateItem(IoC.Get<LoginViewModel>());
+            ActivateItemAsync(IoC.Get<LoginViewModel>());
         }
 
         public bool IsLoggedIn => !String.IsNullOrWhiteSpace(_user.Token);
 
-        public void ExitApp()
+        public async Task ExitApp()
         {
-            TryClose();
+            TryCloseAsync();
         }
-        public void UserManagement()
+        public async Task UserManagement()
         {
-            ActivateItem(IoC.Get<UserDisplayViewModel>());
+            await ActivateItemAsync(IoC.Get<UserDisplayViewModel>());
 
         }
 
 
-        public void LogOut()
+        public async Task LogOut()
         {
             _user.Clear();
             _apiHelper.LogOffUser();
-            ActivateItem(IoC.Get<LoginViewModel>());
+            await ActivateItemAsync(IoC.Get<LoginViewModel>());
             NotifyOfPropertyChange(() => IsLoggedIn);
         }
 
-        public void Handle(LogOnEventModel message)
+
+        public async Task HandleAsync(LogOnEventModel message, CancellationToken cancellationToken)
         {
             //redirect to sales page
-            ActivateItem(_salesVM);
+            await ActivateItemAsync(_salesVM);
             NotifyOfPropertyChange(() => IsLoggedIn);
         }
     }

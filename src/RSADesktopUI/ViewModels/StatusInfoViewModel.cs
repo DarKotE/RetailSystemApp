@@ -22,7 +22,7 @@ namespace RSADesktopUI.ViewModels
         }
         public void Close()
         {
-            TryClose();
+            TryCloseAsync();
         }
     }
 }
