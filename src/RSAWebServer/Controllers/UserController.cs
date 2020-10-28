@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using RSADataManager.Library.DataAccess;
 using RSADataManager.Library.Models;
 using RSAWebServer.Data;
@@ -23,11 +24,15 @@ namespace RSAWebServer.Controllers
     {
         private readonly ApplicationDbContext _context;
         private readonly UserManager<IdentityUser> _userManager;
+        private readonly IConfiguration _configuration;
 
-        public UserController(ApplicationDbContext context, UserManager<IdentityUser> userManager)
+        public UserController(ApplicationDbContext context,
+                              UserManager<IdentityUser> userManager,
+                              IConfiguration configuration)
         {
             _context = context;
             _userManager = userManager;
+            _configuration = configuration;
         }
 
         [HttpGet]
@@ -35,7 +40,7 @@ namespace RSAWebServer.Controllers
         {
             string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            return new UserData().GetUserById(userId);
+            return new UserData(_configuration).GetUserById(userId);
         }
 
         [Authorize(Roles = "Admin")]

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Configuration;
 using RSADataManager.Library.Helpers;
 using RSADataManager.Library.Internal.DataAccess;
 using RSADataManager.Library.Models;
@@ -11,11 +12,19 @@ namespace RSADataManager.Library.DataAccess
 {
     public class SaleData
     {
+        private readonly IConfiguration _configuration;
+
+        public SaleData(IConfiguration configuration)
+        {
+            _configuration = configuration;
+        }
+
+
         //TODO remove biz-logic
         public void SaveSale(SaleModel saleInfo, string cashierId)
         {
             var details = new List<SaleDetailDBModel>();
-            var products = new ProductData();
+            var products = new ProductData(_configuration);
             var taxRate = ConfigHelper.GetTaxRate();
             foreach (var item in saleInfo.SaleDetails)
             {
@@ -45,7 +54,7 @@ namespace RSADataManager.Library.DataAccess
             };
             sale.Total = sale.SubTotal + sale.Tax;
 
-            using (var sql = new SqlDataAccess()) 
+            using (var sql = new SqlDataAccess(_configuration)) 
             {
                 try
                 {
@@ -70,7 +79,7 @@ namespace RSADataManager.Library.DataAccess
         }
         public List<SaleReportModel> GetSaleReport()
         {
-            var sql = new SqlDataAccess();
+            var sql = new SqlDataAccess(_configuration);
             return sql
                     .LoadData<SaleReportModel, dynamic>(storedProcedure: "dbo.spSale_SaleReport",
                                                         parameters: new { },

@@ -6,15 +6,26 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Configuration;
 using Dapper;
 
 namespace RSADataManager.Library.Internal.DataAccess
 {
     internal class SqlDataAccess: IDisposable
     {
+        private IDbConnection _connection;
+        private IDbTransaction _transaction;
+        private readonly IConfiguration _configuration;
+
+        public SqlDataAccess(IConfiguration configuration)
+        {
+            _configuration = configuration;
+        }
+
+
         public string GetConnectionString(string name)
         {
-            return ConfigurationManager.ConnectionStrings[name].ConnectionString;
+            return _configuration.GetConnectionString(name);
         }
 
         public List<T> LoadData<T,U>(string storedProcedure, U parameters, string connectionStringName)
@@ -35,9 +46,6 @@ namespace RSADataManager.Library.Internal.DataAccess
                     .Execute(storedProcedure, parameters, commandType: CommandType.StoredProcedure);
             }
         }
-
-        private IDbConnection _connection;
-        private IDbTransaction _transaction;
 
         public void StartTransaction(string connectionStringName)
         {
