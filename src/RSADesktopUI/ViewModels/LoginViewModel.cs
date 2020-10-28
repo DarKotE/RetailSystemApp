@@ -19,9 +19,9 @@ namespace RSADesktopUI.ViewModels
             _apiHelper = apiHelper;
             _events = events;
         }
-        
 
-        private string _userName;
+
+        private string _userName = "evgenlight@yandex.ru";
         public string UserName
         {
             get { return _userName; }
@@ -33,7 +33,7 @@ namespace RSADesktopUI.ViewModels
         }
 
         //WPF forbids direct passwordbox binding, so it is done via Caliburn.Micro Action
-        private string _password;
+        private string _password = "!QAZ2wwsx";
         public string Password
         {
             get { return _password; }
