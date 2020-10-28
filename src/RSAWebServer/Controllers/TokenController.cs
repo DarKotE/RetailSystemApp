@@ -67,13 +67,13 @@ namespace RSAWebServer.Controllers
             JwtSecurityToken token =new JwtSecurityToken(
                 header:             new JwtHeader(
                 signingCredentials: new SigningCredentials(
-                key:                new SymmetricSecurityKey(Encoding.UTF8.GetBytes("seeecret")), //TODO make env variable
+                key:                new SymmetricSecurityKey(Encoding.UTF8.GetBytes("iEYAFytP7xsmQUxndJXviEYAFytP7xsmQUxndJXv")), //TODO make env variable
                 algorithm:          SecurityAlgorithms.HmacSha256)),
                 payload:            new JwtPayload(claims));
 
             return new
             {
-                Acces_Token = new JwtSecurityTokenHandler().WriteToken(token),
+                Access_Token = new JwtSecurityTokenHandler().WriteToken(token),
                 UserName = username
             };
         }
