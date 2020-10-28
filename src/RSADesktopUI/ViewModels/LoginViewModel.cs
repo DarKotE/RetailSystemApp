@@ -33,7 +33,7 @@ namespace RSADesktopUI.ViewModels
         }
 
         //WPF forbids direct passwordbox binding, so it is done via Caliburn.Micro Action
-        private string _password = "!QAZ2wwsx";
+        private string _password = "!QAZ2wsx";
         public string Password
         {
             get { return _password; }
