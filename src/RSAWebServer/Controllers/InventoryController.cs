@@ -22,14 +22,14 @@ namespace RSAWebServer.Controllers
         {
             _configuration = configuration;
         }
-
+        [HttpGet]
         [Authorize(Roles = "Manager, Admin")]
         public List<InventoryModel> Get()
         {
             var data = new InventoryData(_configuration);
             return data.GetInventory();
         }
-
+        [HttpPost]
         [Authorize(Roles = "Admin")]
         public void Post(InventoryModel item)
         {

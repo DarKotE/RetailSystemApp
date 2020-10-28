@@ -23,7 +23,7 @@ namespace RSAWebServer.Controllers
         {
             _configuration = configuration;
         }
-
+        [HttpPost]
         [Authorize(Roles = "Cashier")]
         public void Post(SaleModel sale)
         {
@@ -31,6 +31,7 @@ namespace RSAWebServer.Controllers
             string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             data.SaveSale(sale, userId);
         }
+        [HttpGet]
         [Authorize(Roles = "Manager, Admin")]
         [Route("GetSalesReport")]
         public List<SaleReportModel> GetSaleReport()

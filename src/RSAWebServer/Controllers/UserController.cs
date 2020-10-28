@@ -45,8 +45,7 @@ namespace RSAWebServer.Controllers
 
         [Authorize(Roles = "Admin")]
         [HttpGet]
-        [Route("api/User/Admin/GetAllUsers")]
-
+        [Route("Admin/GetAllUsers")]
         public List<ApplicationUserModel> GetAllUsers()
         {
             var output = new List<ApplicationUserModel>();
@@ -75,7 +74,7 @@ namespace RSAWebServer.Controllers
 
         [Authorize(Roles = "Admin")]
         [HttpGet]
-        [Route("api/User/Admin/GetAllRoles")]
+        [Route("Admin/GetAllRoles")]
         public Dictionary<string, string> GetAllRoles()
         {
 
@@ -85,7 +84,7 @@ namespace RSAWebServer.Controllers
 
         [Authorize(Roles = "Admin")]
         [HttpPost]
-        [Route("api/User/Admin/AddRole")]
+        [Route("Admin/AddRole")]
         public async Task AddRole(UserRolePairModel pair)
         {
             var userIdentity =await _userManager.FindByIdAsync(pair.UserId);
@@ -95,7 +94,7 @@ namespace RSAWebServer.Controllers
 
         [Authorize(Roles = "Admin")]
         [HttpPost]
-        [Route("api/User/Admin/RemoveRole")]
+        [Route("Admin/RemoveRole")]
         public async Task RemoveRole(UserRolePairModel pair)
         {
             var userIdentity = await _userManager.FindByIdAsync(pair.UserId);

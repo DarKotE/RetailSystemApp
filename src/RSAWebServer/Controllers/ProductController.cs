@@ -22,7 +22,7 @@ namespace RSAWebServer.Controllers
         {
             _configuration = configuration;
         }
-
+        [HttpGet]
         public List<ProductModel> Get()
         {
             var data = new ProductData(_configuration);
