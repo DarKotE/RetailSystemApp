@@ -10,14 +10,12 @@ namespace RSA.DesktopUI.ViewModels
 {
     public class ShellViewModel: Conductor<object>, IHandle<LogOnEventModel>
     {
-        private readonly SalesViewModel _salesVM;
         private readonly ILoggedInUserModel _user;
         private readonly IApiHelper _apiHelper;
         private readonly IEventAggregator _events;
 
 
-        public ShellViewModel(SalesViewModel salesVM,
-                              ILoggedInUserModel user,
+        public ShellViewModel(ILoggedInUserModel user,
                               IApiHelper apiHelper,
                               IEventAggregator events)
         {
@@ -25,7 +23,6 @@ namespace RSA.DesktopUI.ViewModels
             _events = events;
             _events.SubscribeOnPublishedThread(subscriber: this);
 
-            _salesVM = salesVM;
             _user = user;
             _apiHelper = apiHelper;
 
