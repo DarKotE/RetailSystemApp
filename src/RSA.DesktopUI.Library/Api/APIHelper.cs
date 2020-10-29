@@ -16,9 +16,9 @@ namespace RSA.DesktopUI.Library.Api
         public APIHelper(ILoggedInUserModel loggedInUser)
         {
             InitializeClient();
-            _loggedInUser= loggedInUser;
+            _loggedInUser = loggedInUser;
         }
-        
+
         public HttpClient ApiClient
         {
             get
@@ -56,10 +56,12 @@ namespace RSA.DesktopUI.Library.Api
                 throw new Exception(response.ReasonPhrase);
             }
         }
+
         public void LogOffUser()
         {
             _apiClient.DefaultRequestHeaders.Clear();
         }
+
         public async Task GetLoggedInUserInfo(string token)
         {
             _apiClient.DefaultRequestHeaders.Clear();

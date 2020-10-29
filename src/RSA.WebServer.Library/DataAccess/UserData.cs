@@ -14,7 +14,6 @@ namespace RSA.WebServer.Library.DataAccess
             _configuration = configuration;
         }
 
-
         public UserModel GetUserById(string Id)
         {
             var sqlAccess = new SqlDataAccess(_configuration);

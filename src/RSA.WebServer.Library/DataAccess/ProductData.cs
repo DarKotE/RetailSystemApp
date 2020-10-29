@@ -15,7 +15,6 @@ namespace RSA.WebServer.Library.DataAccess
             _configuration = configuration;
         }
 
-
         public List<ProductModel> GetProducts()
         {
             var sqlAccess = new SqlDataAccess(_configuration);

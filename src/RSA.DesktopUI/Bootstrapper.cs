@@ -15,7 +15,7 @@ namespace RSA.DesktopUI
     public class Bootstrapper : BootstrapperBase
     {
         private readonly SimpleContainer _container = new SimpleContainer();
-       
+
         public Bootstrapper()
         {
             Initialize();
@@ -51,16 +51,13 @@ namespace RSA.DesktopUI
 
             //use reflection to wire up all viewModels to the container
             GetType().Assembly.GetTypes()
-                .Where(type => type.IsClass)
-                .Where(type => type.Name.EndsWith("ViewModel"))
+                .Where(type => type.IsClass && type.Name.EndsWith("ViewModel"))
                 .ToList()
                 .ForEach(viewModelType => _container.RegisterPerRequest(
                     viewModelType, viewModelType.ToString(), viewModelType));
         }
 
-
-
-        protected override void OnStartup(object sender, StartupEventArgs e) 
+        protected override void OnStartup(object sender, StartupEventArgs e)
         {
             DisplayRootViewFor<ShellViewModel>();
         }
@@ -79,6 +76,5 @@ namespace RSA.DesktopUI
         {
             _container.BuildUp(instance);
         }
-
     }
 }

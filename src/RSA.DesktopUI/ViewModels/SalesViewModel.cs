@@ -97,12 +97,11 @@ namespace RSA.DesktopUI.ViewModels
         public ProductDisplayModel SelectedProduct
         {
             get { return _selectedProduct; }
-            set 
+            set
             {
                 _selectedProduct = value;
                 NotifyOfPropertyChange(() => SelectedProduct);
                 NotifyOfPropertyChange(() => CanAddToCart);
-
             }
         }
 
@@ -115,10 +114,8 @@ namespace RSA.DesktopUI.ViewModels
                 _selectedCartItem = value;
                 NotifyOfPropertyChange(() => SelectedCartItem);
                 NotifyOfPropertyChange(() => CanRemoveFromCart);
-
             }
         }
-
 
         private BindingList<CartItemDisplayModel> _cart = new BindingList<CartItemDisplayModel>();
         public BindingList<CartItemDisplayModel> Cart
@@ -159,7 +156,6 @@ namespace RSA.DesktopUI.ViewModels
             return Cart
                     .Where(x => x.Product.IsTaxable)
                     .Sum(x => x.Product.RetailPrice * x.QuantityInCart * taxRate);
-
         }
 
         public string Total
@@ -170,7 +166,6 @@ namespace RSA.DesktopUI.ViewModels
                 return total.ToString("C");
             }
         }
-
 
         private int _itemQuantity = 1;
         public int ItemQuantity
@@ -193,7 +188,6 @@ namespace RSA.DesktopUI.ViewModels
         {
             //try to findout if item already is in the cart
             CartItemDisplayModel existingItem = Cart.FirstOrDefault(x => x.Product == SelectedProduct);
-
 
             bool haveSameInCart = existingItem != null;
             if (haveSameInCart)
@@ -218,7 +212,6 @@ namespace RSA.DesktopUI.ViewModels
 
         public bool CanRemoveFromCart => SelectedCartItem?.QuantityInCart > 0;
 
-
         public void RemoveFromCart()
         {
             SelectedCartItem.Product.QuantityInStock++;
@@ -236,22 +229,8 @@ namespace RSA.DesktopUI.ViewModels
             NotifyOfPropertyChange(() => CanCheckOut);
             NotifyOfPropertyChange(() => CanAddToCart);
         }
-        public bool CanCheckOut
-        {
-            get
-            {
-                if (Cart.Count > 0)
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
-            }
-        }
+        public bool CanCheckOut => Cart.Count > 0;
 
-        
         public async Task CheckOut()
         {
             var sale = new SaleModel();
@@ -266,7 +245,5 @@ namespace RSA.DesktopUI.ViewModels
 
             await ResetSalesViewModel();
         }
-
-
     }
 }

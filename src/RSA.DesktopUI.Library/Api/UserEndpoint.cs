@@ -14,6 +14,7 @@ namespace RSA.DesktopUI.Library.Api
         {
             _apiHelper = apiHelper;
         }
+
         public async Task<List<ApplicationUserModel>> GetAll()
         {
             using HttpResponseMessage response = await _apiHelper.ApiClient.GetAsync("/api/User/Admin/GetAllUsers");
@@ -26,6 +27,7 @@ namespace RSA.DesktopUI.Library.Api
                 throw new Exception(response.ReasonPhrase);
             }
         }
+
         public async Task<Dictionary<string, string>> GetAllRoles()
         {
             using HttpResponseMessage response = await _apiHelper.ApiClient.GetAsync("/api/User/Admin/GetAllRoles");
@@ -46,13 +48,14 @@ namespace RSA.DesktopUI.Library.Api
             using HttpResponseMessage response = await _apiHelper.ApiClient.PostAsJsonAsync("/api/User/Admin/AddRole", data);
             if (response.IsSuccessStatusCode)
             {
-                //TODO logging?
+                // TODO logging?
             }
             else
             {
                 throw new Exception(response.ReasonPhrase);
             }
         }
+
         public async Task RemoveUserFromRole(string userId, string roleName)
         {
             var data = new { userId, roleName };
@@ -60,7 +63,7 @@ namespace RSA.DesktopUI.Library.Api
             using HttpResponseMessage response = await _apiHelper.ApiClient.PostAsJsonAsync("/api/User/Admin/RemoveRole", data);
             if (response.IsSuccessStatusCode)
             {
-                //TODO logging?
+                // TODO logging?
             }
             else
             {

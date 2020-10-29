@@ -67,9 +67,9 @@ namespace RSA.WebServer.Controllers
                 header:             new JwtHeader(
                 signingCredentials: new SigningCredentials(
                 key:                new SymmetricSecurityKey(Encoding.UTF8.GetBytes("iEYAFytP7xsmQUxndJXviEYAFytP7xsmQUxndJXv")), //TODO make env variable
-                algorithm:          SecurityAlgorithms.HmacSha256)),
+                algorithm:          SecurityAlgorithms.HmacSha256)),    
                 payload:            new JwtPayload(claims));
-
+                //TODO https://security-code-scan.github.io/#SCS0016
             return new
             {
                 Access_Token = new JwtSecurityTokenHandler().WriteToken(token),

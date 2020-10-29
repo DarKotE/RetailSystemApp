@@ -16,8 +16,6 @@ namespace RSA.DesktopUI.ViewModels
         private readonly IWindowManager _window;
         private readonly IUserEndpoint _userEndpoint;
 
-
-
         private BindingList<ApplicationUserModel> _userList;
         public BindingList<ApplicationUserModel> UserList
         {
@@ -51,8 +49,8 @@ namespace RSA.DesktopUI.ViewModels
         public string SelectedUserName
         {
             get { return _selectedUserName; }
-            set 
-            { 
+            set
+            {
                 _selectedUserName = value;
                 NotifyOfPropertyChange(() => SelectedUserName);
             }
@@ -62,8 +60,8 @@ namespace RSA.DesktopUI.ViewModels
         public BindingList<string> UserRoles
         {
             get { return _userRoles; }
-            set 
-            { 
+            set
+            {
                 _userRoles = value;
                 NotifyOfPropertyChange(() => SelectedUser.RoleList);
                 NotifyOfPropertyChange(() => UserRoles);
@@ -87,8 +85,8 @@ namespace RSA.DesktopUI.ViewModels
         public string SelectedUserRole
         {
             get { return _selectedUserRole; }
-            set 
-            { 
+            set
+            {
                 _selectedUserRole = value;
                 NotifyOfPropertyChange(() => SelectedUserRole);
             }
@@ -104,9 +102,6 @@ namespace RSA.DesktopUI.ViewModels
                 NotifyOfPropertyChange(() => SelectedAvailableRole);
             }
         }
-
-
-
 
         public UserDisplayViewModel(StatusInfoViewModel status,
                                     IWindowManager window,

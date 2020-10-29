@@ -7,7 +7,6 @@ namespace RSA.DesktopUI.Library.Helpers
     {
         public decimal GetTaxRate()
         {
-
             string rateText = ConfigurationManager.AppSettings["taxRate"];
 
             bool isTaxValid = Decimal.TryParse(rateText,
@@ -17,6 +16,7 @@ namespace RSA.DesktopUI.Library.Helpers
             {
                 return output;
             }
+
             throw new ConfigurationErrorsException("The tax rate is not set up properly");
         }
     }

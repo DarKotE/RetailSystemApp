@@ -19,7 +19,6 @@ namespace RSA.WebServer.Library.Internal.DataAccess
             _configuration = configuration;
         }
 
-
         public string GetConnectionString(string name)
         {
             return _configuration.GetConnectionString(name);
@@ -56,17 +55,18 @@ namespace RSA.WebServer.Library.Internal.DataAccess
         public void RollbackTransaction()
         {
             _transaction.Rollback();
+            //_transaction.Dispose(); ////TODO CHECK
             _transaction = null;
             _connection?.Close();
             _connection = null;
         }
-        public void SaveDataInTransaction<T>(string storedProcedure, T parameters) => 
+        public void SaveDataInTransaction<T>(string storedProcedure, T parameters) =>
             _connection
                 .Execute(storedProcedure,
                          parameters,
                          commandType: CommandType.StoredProcedure,
                          transaction: _transaction);
-        public List<T> LoadDataInTransaction<T, U>(string storedProcedure, U parameters) => 
+        public List<T> LoadDataInTransaction<T, U>(string storedProcedure, U parameters) =>
             _connection
                     .Query<T>(storedProcedure,
                               parameters,

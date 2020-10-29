@@ -3,11 +3,10 @@ using System.Configuration;
 
 namespace RSA.WebServer.Library.Helpers
 {
-    public class ConfigHelper 
+    public class ConfigHelper
     {
         public static decimal GetTaxRate()
         {
-
             string rateText = ConfigurationManager.AppSettings["taxRate"];
 
             bool isTaxValid = Decimal.TryParse(rateText,

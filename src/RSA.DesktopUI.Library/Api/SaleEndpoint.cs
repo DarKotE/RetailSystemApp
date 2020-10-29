@@ -12,12 +12,13 @@ namespace RSA.DesktopUI.Library.Api
         {
             _apiHelper = apiHelper;
         }
+
         public async Task PostSale(SaleModel sale)
         {
             using HttpResponseMessage response = await _apiHelper.ApiClient.PostAsJsonAsync("/api/Sale", sale);
             if (response.IsSuccessStatusCode)
             {
-                //TODO What to do after sale
+                // TODO What to do after sale
             }
             else
             {

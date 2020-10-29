@@ -51,16 +51,15 @@ namespace RSA.WebServer.Controllers
                             join r in _context.Roles 
                             on ur.RoleId equals r.Id
                             select new { ur.UserId, ur.RoleId, r.Name };
-            foreach (var user in users)
+            foreach (var u in users.Select(user => new ApplicationUserModel
             {
-                var u = new ApplicationUserModel
-                {
-                    Id = user.Id,
-                    Email = user.Email
-                };
+                Id = user.Id,
+                Email = user.Email
+            }))
+            {
                 u.Roles = userRoles.Where(x => x.UserId == u.Id)
-                                  .ToDictionary(key => key.RoleId,
-                                                val => val.Name);
+                    .ToDictionary(key => key.RoleId,
+                        val => val.Name);
                 output.Add(u);
             }
 

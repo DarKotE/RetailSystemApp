@@ -10,6 +10,5 @@ namespace RSA.WebServer.Library.Models
         public decimal SubTotal { get; set; }
         public decimal Tax { get; set; }
         public decimal Total { get; set; }
-
     }
 }

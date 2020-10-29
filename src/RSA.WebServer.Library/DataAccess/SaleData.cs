@@ -17,7 +17,6 @@ namespace RSA.WebServer.Library.DataAccess
             _configuration = configuration;
         }
 
-
         //TODO remove biz-logic
         public void SaveSale(SaleModel saleInfo, string cashierId)
         {
@@ -48,7 +47,6 @@ namespace RSA.WebServer.Library.DataAccess
                 SubTotal = details.Sum(x => x.PurchasePrice),
                 Tax = details.Sum(x => x.Tax),
                 CashierId = cashierId
-
             };
             sale.Total = sale.SubTotal + sale.Tax;
 
@@ -81,6 +79,5 @@ namespace RSA.WebServer.Library.DataAccess
                                                         parameters: new { },
                                                         connectionStringName: "RSAData");
         }
-
     }
 }

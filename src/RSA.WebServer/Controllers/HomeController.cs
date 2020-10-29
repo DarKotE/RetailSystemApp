@@ -12,7 +12,7 @@ namespace RSA.WebServer.Controllers
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly UserManager<IdentityUser> _userManager;
 
-        public HomeController(ILogger<HomeController> logger, 
+        public HomeController(ILogger<HomeController> logger,
             RoleManager<IdentityRole> roleManager,
             UserManager<IdentityUser> userManager)
         {
@@ -29,7 +29,6 @@ namespace RSA.WebServer.Controllers
         //public async Task<IActionResult> Privacy()
         public IActionResult Privacy()
         {
-
             //string[] roles = { "Admin", "Manager", "Cashier" };
             //foreach (var role in roles)
             //{
@@ -47,7 +46,6 @@ namespace RSA.WebServer.Controllers
             //}
 
             return View();
-
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
