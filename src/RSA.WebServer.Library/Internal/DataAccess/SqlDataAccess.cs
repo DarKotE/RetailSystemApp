@@ -27,21 +27,17 @@ namespace RSA.WebServer.Library.Internal.DataAccess
 
         public List<T> LoadData<T,U>(string storedProcedure, U parameters, string connectionStringName)
         {
-            using (IDbConnection connection = new SqlConnection(GetConnectionString(connectionStringName)))
-            {
-                return connection
-                    .Query<T>(storedProcedure, parameters, commandType: CommandType.StoredProcedure)
-                    .ToList();
-            }
+            using IDbConnection connection = new SqlConnection(GetConnectionString(connectionStringName));
+            return connection
+                .Query<T>(storedProcedure, parameters, commandType: CommandType.StoredProcedure)
+                .ToList();
         }
 
         public void SaveData<T>(string storedProcedure, T parameters, string connectionStringName)
         {
-            using (IDbConnection connection = new SqlConnection(GetConnectionString(connectionStringName)))
-            {
-                connection
-                    .Execute(storedProcedure, parameters, commandType: CommandType.StoredProcedure);
-            }
+            using IDbConnection connection = new SqlConnection(GetConnectionString(connectionStringName));
+            connection
+                .Execute(storedProcedure, parameters, commandType: CommandType.StoredProcedure);
         }
 
         public void StartTransaction(string connectionStringName)

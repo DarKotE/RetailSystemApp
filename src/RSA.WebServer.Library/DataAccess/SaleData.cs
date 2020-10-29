@@ -52,27 +52,25 @@ namespace RSA.WebServer.Library.DataAccess
             };
             sale.Total = sale.SubTotal + sale.Tax;
 
-            using (var sql = new SqlDataAccess(_configuration)) 
+            using var sql = new SqlDataAccess(_configuration);
+            try
             {
-                try
+                sql.StartTransaction("RSAData");
+                sql.SaveDataInTransaction("dbo.spSale_Insert", sale);
+                sale.Id = sql
+                    .LoadDataInTransaction<int, dynamic>("spSale_Lookup", new {sale.CashierId, sale.SaleDate })
+                    .FirstOrDefault();
+                foreach (var item in details)
                 {
-                    sql.StartTransaction("RSAData");
-                    sql.SaveDataInTransaction("dbo.spSale_Insert", sale);
-                    sale.Id = sql
-                        .LoadDataInTransaction<int, dynamic>("spSale_Lookup", new { CashierId = sale.CashierId, SaleDate = sale.SaleDate })
-                        .FirstOrDefault();
-                    foreach (var item in details)
-                    {
-                        item.SaleId = sale.Id;
-                        sql.SaveDataInTransaction("dbo.spSaleDetail_Insert", item);
-                    }
-                    sql.CommitTransaction();
+                    item.SaleId = sale.Id;
+                    sql.SaveDataInTransaction("dbo.spSaleDetail_Insert", item);
                 }
-                catch
-                {
-                    sql.RollbackTransaction();
-                    throw;
-                }
+                sql.CommitTransaction();
+            }
+            catch
+            {
+                sql.RollbackTransaction();
+                throw;
             }
         }
         public List<SaleReportModel> GetSaleReport()

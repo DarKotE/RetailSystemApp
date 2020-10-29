@@ -16,10 +16,10 @@ namespace RSA.DesktopUI.ViewModels
 {
     public class SalesViewModel : Screen
     {
-        private IProductEndpoint _productEndpoint;
-        private ISaleEndpoint _saleEndpoint;
-        private IMapper _mapper;
-        private IConfigHelper _configHelper;
+        private readonly IProductEndpoint _productEndpoint;
+        private readonly ISaleEndpoint _saleEndpoint;
+        private readonly IMapper _mapper;
+        private readonly IConfigHelper _configHelper;
         private readonly StatusInfoViewModel _status;
         private readonly IWindowManager _window;
 

@@ -10,10 +10,10 @@ namespace RSA.DesktopUI.ViewModels
 {
     public class ShellViewModel: Conductor<object>, IHandle<LogOnEventModel>
     {
-        private SalesViewModel _salesVM;
-        private ILoggedInUserModel _user;
-        private IAPIHelper _apiHelper;
-        private IEventAggregator _events;
+        private readonly SalesViewModel _salesVM;
+        private readonly ILoggedInUserModel _user;
+        private readonly IAPIHelper _apiHelper;
+        private readonly IEventAggregator _events;
 
 
         public ShellViewModel(SalesViewModel salesVM,
@@ -37,7 +37,7 @@ namespace RSA.DesktopUI.ViewModels
 
         public async Task ExitApp()
         {
-            TryCloseAsync();
+            await TryCloseAsync();
         }
         public async Task UserManagement()
         {

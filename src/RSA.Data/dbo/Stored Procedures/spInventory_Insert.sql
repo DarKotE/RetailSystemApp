@@ -7,7 +7,7 @@ AS
 BEGIN
 	SET NOCOUNT ON;
 
-	INSERT INTO [DBO].[Inventory](ProductId, Quantity, PurchasePrice, PurchaseDate)
+	INSERT INTO [dbo].[Inventory](ProductId, Quantity, PurchasePrice, PurchaseDate)
 	VALUES (@ProductId, @Quantity, @PurchasePrice, @PurchaseDate)
 
 END

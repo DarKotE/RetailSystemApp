@@ -7,23 +7,21 @@ namespace RSA.DesktopUI.Library.Api
 {
     public class SaleEndpoint : ISaleEndpoint
     {
-        private IAPIHelper _apiHelper;
+        private readonly IAPIHelper _apiHelper;
         public SaleEndpoint(IAPIHelper apiHelper)
         {
             _apiHelper = apiHelper;
         }
         public async Task PostSale(SaleModel sale)
         {
-            using (HttpResponseMessage response = await _apiHelper.ApiClient.PostAsJsonAsync("/api/Sale", sale))
+            using HttpResponseMessage response = await _apiHelper.ApiClient.PostAsJsonAsync("/api/Sale", sale);
+            if (response.IsSuccessStatusCode)
             {
-                if (response.IsSuccessStatusCode)
-                {
-                    //TODO What to do after sale
-                }
-                else
-                {
-                    throw new Exception(response.ReasonPhrase);
-                }
+                //TODO What to do after sale
+            }
+            else
+            {
+                throw new Exception(response.ReasonPhrase);
             }
         }
     }

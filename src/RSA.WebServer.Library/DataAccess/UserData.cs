@@ -18,7 +18,7 @@ namespace RSA.WebServer.Library.DataAccess
         public UserModel GetUserById(string Id)
         {
             var sqlAccess = new SqlDataAccess(_configuration);
-            var p = new { Id = Id };
+            var p = new { Id };
             return sqlAccess
                 .LoadData<UserModel, dynamic>(storedProcedure: "[dbo].[spUserLookup]",
                                               parameters: p,
