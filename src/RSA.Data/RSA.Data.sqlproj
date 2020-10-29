@@ -6,7 +6,7 @@
     <Name>RSAData</Name>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectVersion>4.1</ProjectVersion>
-    <ProjectGuid>{916be9a2-ca66-451a-a771-b9d6a8a015ef}</ProjectGuid>
+    <ProjectGuid>{ab0d870c-c4a5-4fd1-a371-b064d7c7402c}</ProjectGuid>
     <DSP>Microsoft.Data.Tools.Schema.Sql.Sql130DatabaseSchemaProvider</DSP>
     <OutputType>Database</OutputType>
     <RootPath>
