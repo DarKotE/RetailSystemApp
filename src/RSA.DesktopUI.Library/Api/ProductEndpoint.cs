@@ -8,8 +8,8 @@ namespace RSA.DesktopUI.Library.Api
 {
     public class ProductEndpoint : IProductEndpoint
     {
-        private readonly IAPIHelper _apiHelper;
-        public ProductEndpoint(IAPIHelper apiHelper)
+        private readonly IApiHelper _apiHelper;
+        public ProductEndpoint(IApiHelper apiHelper)
         {
             _apiHelper = apiHelper;
         }

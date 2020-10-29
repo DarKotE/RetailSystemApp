@@ -8,7 +8,7 @@ using RSA.DesktopUI.Library.Models;
 
 namespace RSA.DesktopUI.Library.Api
 {
-    public class ApiHelper : IAPIHelper
+    public class ApiHelper : IApiHelper
     {
         private HttpClient _apiClient;
         private readonly ILoggedInUserModel _loggedInUser;

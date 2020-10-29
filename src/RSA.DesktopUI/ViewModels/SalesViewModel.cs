@@ -59,7 +59,7 @@ namespace RSA.DesktopUI.ViewModels
                 }
                 else
                 {
-                    _status.UpdateMessage("Fatal exeption", ex.Message);
+                    _status.UpdateMessage("Fatal exception", ex.Message);
                     await _window.ShowDialogAsync(_status, null, settings);
                 }
                 await TryCloseAsync();
@@ -186,7 +186,7 @@ namespace RSA.DesktopUI.ViewModels
 
         public void AddToCart()
         {
-            //try to findout if item already is in the cart
+            //try to find out if item already is in the cart
             CartItemDisplayModel existingItem = Cart.FirstOrDefault(x => x.Product == SelectedProduct);
 
             bool haveSameInCart = existingItem != null;

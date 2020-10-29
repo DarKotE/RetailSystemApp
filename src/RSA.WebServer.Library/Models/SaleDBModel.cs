@@ -2,7 +2,7 @@
 
 namespace RSA.WebServer.Library.Models
 {
-    public class SaleDBModel
+    public class SaleDbModel
     {
         public int Id { get; set; }
         public string CashierId { get; set; }

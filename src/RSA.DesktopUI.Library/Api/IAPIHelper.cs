@@ -4,7 +4,7 @@ using RSA.DesktopUI.Library.Models;
 
 namespace RSA.DesktopUI.Library.Api
 {
-    public interface IAPIHelper
+    public interface IApiHelper
     {
         HttpClient ApiClient { get; }
         Task<AuthenticatedUser> Authenticate(string username, string password);

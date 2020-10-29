@@ -7,8 +7,8 @@ namespace RSA.DesktopUI.Library.Api
 {
     public class SaleEndpoint : ISaleEndpoint
     {
-        private readonly IAPIHelper _apiHelper;
-        public SaleEndpoint(IAPIHelper apiHelper)
+        private readonly IApiHelper _apiHelper;
+        public SaleEndpoint(IApiHelper apiHelper)
         {
             _apiHelper = apiHelper;
         }

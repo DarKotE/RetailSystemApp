@@ -20,12 +20,12 @@ namespace RSA.WebServer.Library.DataAccess
         //TODO remove biz-logic
         public void SaveSale(SaleModel saleInfo, string cashierId)
         {
-            var details = new List<SaleDetailDBModel>();
+            var details = new List<SaleDetailDbModel>();
             var products = new ProductData(_configuration);
             var taxRate = ConfigHelper.GetTaxRate();
             foreach (var item in saleInfo.SaleDetails)
             {
-                var detail = new SaleDetailDBModel
+                var detail = new SaleDetailDbModel
                 {
                     ProductId = item.ProductId,
                     Quantity = item.Quantity
@@ -43,7 +43,7 @@ namespace RSA.WebServer.Library.DataAccess
                 }
                 details.Add(detail);
             }
-            var sale = new SaleDBModel
+            var sale = new SaleDbModel
             {
                 SubTotal = details.Sum(x => x.PurchasePrice),
                 Tax = details.Sum(x => x.Tax),

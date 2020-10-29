@@ -24,7 +24,7 @@ namespace RSA.WebServer.Library.Internal.DataAccess
             return _configuration.GetConnectionString(name);
         }
 
-        public List<T> LoadData<T,U>(string storedProcedure, U parameters, string connectionStringName)
+        public List<T> LoadData<T,TU>(string storedProcedure, TU parameters, string connectionStringName)
         {
             using IDbConnection connection = new SqlConnection(GetConnectionString(connectionStringName));
             return connection
@@ -67,7 +67,7 @@ namespace RSA.WebServer.Library.Internal.DataAccess
                          parameters,
                          commandType: CommandType.StoredProcedure,
                          transaction: _transaction);
-        public List<T> LoadDataInTransaction<T, U>(string storedProcedure, U parameters) =>
+        public List<T> LoadDataInTransaction<T, TU>(string storedProcedure, TU parameters) =>
             _connection
                     .Query<T>(storedProcedure,
                               parameters,

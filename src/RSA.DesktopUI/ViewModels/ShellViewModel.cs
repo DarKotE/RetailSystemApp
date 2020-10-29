@@ -12,13 +12,13 @@ namespace RSA.DesktopUI.ViewModels
     {
         private readonly SalesViewModel _salesVM;
         private readonly ILoggedInUserModel _user;
-        private readonly IAPIHelper _apiHelper;
+        private readonly IApiHelper _apiHelper;
         private readonly IEventAggregator _events;
 
 
         public ShellViewModel(SalesViewModel salesVM,
                               ILoggedInUserModel user,
-                              IAPIHelper apiHelper,
+                              IApiHelper apiHelper,
                               IEventAggregator events)
         {
             //start listening to events

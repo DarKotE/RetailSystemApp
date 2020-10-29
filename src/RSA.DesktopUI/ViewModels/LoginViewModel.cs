@@ -8,10 +8,10 @@ namespace RSA.DesktopUI.ViewModels
 {
     public class LoginViewModel : Screen
     {
-        private readonly IAPIHelper _apiHelper;
+        private readonly IApiHelper _apiHelper;
         private readonly IEventAggregator _events;
 
-        public LoginViewModel(IAPIHelper apiHelper, IEventAggregator events)
+        public LoginViewModel(IApiHelper apiHelper, IEventAggregator events)
         {
             _apiHelper = apiHelper;
             _events = events;
@@ -77,7 +77,7 @@ namespace RSA.DesktopUI.ViewModels
                 //fetch additional information on user
                 await _apiHelper.GetLoggedInUserInfo(result.Access_Token);
 
-                //in absence of exeption clear errormessage textblock errors and hide it
+                //in absence of exception clear errormessage textblock errors and hide it
                 ErrorMessage = String.Empty;
 
                 await _events.PublishOnUIThreadAsync(new LogOnEventModel());

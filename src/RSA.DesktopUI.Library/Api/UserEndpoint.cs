@@ -8,9 +8,9 @@ namespace RSA.DesktopUI.Library.Api
 {
     public class UserEndpoint : IUserEndpoint
     {
-        private readonly IAPIHelper _apiHelper;
+        private readonly IApiHelper _apiHelper;
 
-        public UserEndpoint(IAPIHelper apiHelper)
+        public UserEndpoint(IApiHelper apiHelper)
         {
             _apiHelper = apiHelper;
         }

@@ -1,6 +1,6 @@
 ﻿namespace RSA.WebServer.Library.Models
 {
-    public class SaleDetailDBModel
+    public class SaleDetailDbModel
     {
         public int SaleId { get; set; }
         public int ProductId { get; set; }

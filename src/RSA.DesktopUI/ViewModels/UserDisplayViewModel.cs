@@ -134,7 +134,7 @@ namespace RSA.DesktopUI.ViewModels
                 }
                 else
                 {
-                    _status.UpdateMessage("Fatal exeption", ex.Message);
+                    _status.UpdateMessage("Fatal exception", ex.Message);
                     await _window.ShowDialogAsync(_status, null, settings);
                 }
                 await TryCloseAsync();
