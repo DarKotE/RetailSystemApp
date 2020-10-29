@@ -10,6 +10,8 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using RSA.WebServer.Data;
+using RSA.WebServer.Library.DataAccess;
+using RSA.WebServer.Library.Internal.DataAccess;
 
 namespace RSA.WebServer
 {
@@ -33,6 +35,14 @@ namespace RSA.WebServer
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddControllersWithViews();
             services.AddRazorPages();
+            
+            // Custom settings
+            services.AddTransient<IInventoryData, InventoryData>();
+            services.AddTransient<ISqlDataAccess, SqlDataAccess>();
+            services.AddTransient<IProductData, ProductData>();
+            services.AddTransient<ISaleData, SaleData>();
+            services.AddTransient<IUserData, UserData>();
+
             services.AddSwaggerGen(setup => {
                 setup.SwaggerDoc(
                     "v1",

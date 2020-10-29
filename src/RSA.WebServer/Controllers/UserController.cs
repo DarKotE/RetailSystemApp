@@ -20,15 +20,15 @@ namespace RSA.WebServer.Controllers
     {
         private readonly ApplicationDbContext _context;
         private readonly UserManager<IdentityUser> _userManager;
-        private readonly IConfiguration _configuration;
+        private readonly IUserData _userData;
 
         public UserController(ApplicationDbContext context,
                               UserManager<IdentityUser> userManager,
-                              IConfiguration configuration)
+                              IUserData userData)
         {
             _context = context;
             _userManager = userManager;
-            _configuration = configuration;
+            _userData = userData;
         }
 
         [HttpGet]
@@ -36,7 +36,7 @@ namespace RSA.WebServer.Controllers
         {
             string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            return new UserData(_configuration).GetUserById(userId);
+            return _userData.GetUserById(userId);
         }
 
         [Authorize(Roles = "Admin")]

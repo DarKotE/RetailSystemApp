@@ -13,27 +13,25 @@ namespace RSA.WebServer.Controllers
     [Authorize]
     public class SaleController : ControllerBase
     {
-        private readonly IConfiguration _configuration;
+        private readonly ISaleData _saleData;
 
-        public SaleController(IConfiguration configuration)
+        public SaleController(ISaleData saleData)
         {
-            _configuration = configuration;
+            _saleData = saleData;
         }
         [HttpPost]
         [Authorize(Roles = "Cashier")]
         public void Post(SaleModel sale)
         {
-            var data = new SaleData(_configuration);
             string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            data.SaveSale(sale, userId);
+            _saleData.SaveSale(sale, userId);
         }
         [HttpGet]
         [Authorize(Roles = "Manager, Admin")]
         [Route("GetSalesReport")]
         public List<SaleReportModel> GetSaleReport()
         {
-            var data = new SaleData(_configuration);
-            return data.GetSaleReport();
+            return _saleData.GetSaleReport();
         }
     }
 }

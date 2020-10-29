@@ -1,31 +1,28 @@
 ﻿using System.Collections.Generic;
-using Microsoft.Extensions.Configuration;
 using RSA.WebServer.Library.Internal.DataAccess;
 using RSA.WebServer.Library.Models;
 
 namespace RSA.WebServer.Library.DataAccess
 {
-    public class InventoryData
+    public class InventoryData : IInventoryData
     {
-        private readonly IConfiguration _configuration;
+        private readonly ISqlDataAccess _sql;
 
-        public InventoryData(IConfiguration configuration)
+        public InventoryData(ISqlDataAccess sql)
         {
-            _configuration = configuration;
+            _sql = sql;
         }
 
         public List<InventoryModel> GetInventory()
         {
-            using var sql = new SqlDataAccess(_configuration);
-            return sql
+            return _sql
                     .LoadData<InventoryModel, dynamic>(storedProcedure: "dbo.spInventory_GetAll",
                                                         parameters: new { },
                                                         connectionStringName: "RSAData");
         }
         public void SaveInventoryRecord(InventoryModel inventoryRecord)
         {
-            using var sql = new SqlDataAccess(_configuration);
-            sql.SaveData(storedProcedure: "[dbo].[spInventory_Insert]",
+            _sql.SaveData(storedProcedure: "[dbo].[spInventory_Insert]",
                          parameters: inventoryRecord,
                          connectionStringName: "RSAData");
         }

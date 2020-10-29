@@ -1,24 +1,22 @@
 ﻿using System.Linq;
-using Microsoft.Extensions.Configuration;
 using RSA.WebServer.Library.Internal.DataAccess;
 using RSA.WebServer.Library.Models;
 
 namespace RSA.WebServer.Library.DataAccess
 {
-    public class UserData
+    public class UserData : IUserData
     {
-        private readonly IConfiguration _configuration;
+        private readonly ISqlDataAccess _sql;
 
-        public UserData(IConfiguration configuration)
+        public UserData(ISqlDataAccess sql)
         {
-            _configuration = configuration;
+            _sql = sql;
         }
 
         public UserModel GetUserById(string id)
         {
-            using var sqlAccess = new SqlDataAccess(_configuration);
             var p = new {Id = id};
-            return sqlAccess
+            return _sql
                 .LoadData<UserModel, dynamic>(storedProcedure: "[dbo].[spUserLookup]",
                                               parameters: p,
                                               connectionStringName: "RSAData")

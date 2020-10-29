@@ -8,7 +8,7 @@ using Microsoft.Extensions.Configuration;
 
 namespace RSA.WebServer.Library.Internal.DataAccess
 {
-    internal class SqlDataAccess: IDisposable
+    public class SqlDataAccess: ISqlDataAccess, IDisposable
     {
         private IDbConnection _connection;
         private IDbTransaction _transaction;
@@ -80,7 +80,8 @@ namespace RSA.WebServer.Library.Internal.DataAccess
             Dispose(true);
             GC.SuppressFinalize(this);
         }
-        protected virtual void Dispose(bool disposing)
+
+        public virtual void Dispose(bool disposing)
         {
             CommitTransaction();
         }
