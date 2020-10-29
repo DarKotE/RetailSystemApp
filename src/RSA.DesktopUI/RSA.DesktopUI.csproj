@@ -9,6 +9,6 @@
 	  <PackageReference Include="Caliburn.Micro" Version="4.0.136-rc" />
 	</ItemGroup>
 	<ItemGroup>
-	  <ProjectReference Include="..\RSADesktopUI.Library\RSADesktopUI.Library.csproj" />
+	  <ProjectReference Include="..\RSA.DesktopUI.Library\RSA.DesktopUI.Library.csproj" />
 	</ItemGroup>
 </Project>
