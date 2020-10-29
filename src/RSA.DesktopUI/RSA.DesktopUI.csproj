@@ -7,10 +7,6 @@
 	<ItemGroup>
 	  <PackageReference Include="AutoMapper" Version="10.1.1" />
 	  <PackageReference Include="Caliburn.Micro" Version="4.0.136-rc" />
-	  <PackageReference Include="Roslynator.Analyzers" Version="3.0.0">
-	    <PrivateAssets>all</PrivateAssets>
-	    <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-	  </PackageReference>
 	</ItemGroup>
 	<ItemGroup>
 	  <ProjectReference Include="..\RSA.DesktopUI.Library\RSA.DesktopUI.Library.csproj" />

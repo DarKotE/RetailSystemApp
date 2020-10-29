@@ -35,14 +35,13 @@ namespace RSA.DesktopUI.ViewModels
 
         public bool IsLoggedIn => !String.IsNullOrWhiteSpace(_user.Token);
 
-        public async Task ExitApp()
+        public void ExitApp()
         {
-            await TryCloseAsync();
+            TryCloseAsync();
         }
-        public async Task UserManagement()
+        public void UserManagement()
         {
-            await ActivateItemAsync(IoC.Get<UserDisplayViewModel>());
-
+            ActivateItemAsync(IoC.Get<UserDisplayViewModel>());
         }
 
 

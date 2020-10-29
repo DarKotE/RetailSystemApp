@@ -33,6 +33,7 @@ namespace RSA.WebServer.Library.DataAccess
                 var productInfo = products.GetProductById(detail.ProductId);
                 if (products is null)
                 {
+                    // TODO if always false
                     throw new Exception($"The product Id of {detail.ProductId} not found in the Db");
                 }
                 detail.PurchasePrice = productInfo.RetailPrice * detail.Quantity;
@@ -73,7 +74,7 @@ namespace RSA.WebServer.Library.DataAccess
         }
         public List<SaleReportModel> GetSaleReport()
         {
-            var sql = new SqlDataAccess(_configuration);
+            using var sql = new SqlDataAccess(_configuration);
             return sql
                     .LoadData<SaleReportModel, dynamic>(storedProcedure: "dbo.spSale_SaleReport",
                                                         parameters: new { },

@@ -8,12 +8,12 @@ using RSA.DesktopUI.Library.Models;
 
 namespace RSA.DesktopUI.Library.Api
 {
-    public class APIHelper : IAPIHelper
+    public class ApiHelper : IAPIHelper
     {
         private HttpClient _apiClient;
         private readonly ILoggedInUserModel _loggedInUser;
 
-        public APIHelper(ILoggedInUserModel loggedInUser)
+        public ApiHelper(ILoggedInUserModel loggedInUser)
         {
             InitializeClient();
             _loggedInUser = loggedInUser;
@@ -40,7 +40,7 @@ namespace RSA.DesktopUI.Library.Api
 
         public async Task<AuthenticatedUser> Authenticate(string username, string password)
         {
-            var data = new FormUrlEncodedContent(new[]
+            using var data = new FormUrlEncodedContent(new[]
             {
                 new KeyValuePair<string, string>("grant_type", "password"),
                 new KeyValuePair<string, string>("username", username),

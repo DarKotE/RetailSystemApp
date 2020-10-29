@@ -45,7 +45,7 @@ namespace RSA.DesktopUI
                 .Singleton<IEventAggregator, EventAggregator>()
                 .Singleton<ILoggedInUserModel, LoggedInUserModel>()
                 .Singleton<IConfigHelper, ConfigHelper>()
-                .Singleton<IAPIHelper, APIHelper>();
+                .Singleton<IAPIHelper, ApiHelper>();
 
             //TODO change it later to something more ordinary
 

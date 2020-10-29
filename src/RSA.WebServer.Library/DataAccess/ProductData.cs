@@ -17,7 +17,7 @@ namespace RSA.WebServer.Library.DataAccess
 
         public List<ProductModel> GetProducts()
         {
-            var sqlAccess = new SqlDataAccess(_configuration);
+            using var sqlAccess = new SqlDataAccess(_configuration);
             return sqlAccess
                 .LoadData<ProductModel, dynamic>(storedProcedure: "[dbo].[spProduct_GetAll]",
                                                  parameters: new { },
@@ -25,7 +25,7 @@ namespace RSA.WebServer.Library.DataAccess
         }
         public ProductModel GetProductById(int productId)
         {
-            var sqlAccess = new SqlDataAccess(_configuration);
+            using var sqlAccess = new SqlDataAccess(_configuration);
             return sqlAccess
                 .LoadData<ProductModel, dynamic>(storedProcedure: "[dbo].[spProduct_GetById]",
                                                  parameters: new { Id = productId },

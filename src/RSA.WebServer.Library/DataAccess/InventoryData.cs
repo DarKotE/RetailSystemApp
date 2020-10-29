@@ -16,7 +16,7 @@ namespace RSA.WebServer.Library.DataAccess
 
         public List<InventoryModel> GetInventory()
         {
-            var sql = new SqlDataAccess(_configuration);
+            using var sql = new SqlDataAccess(_configuration);
             return sql
                     .LoadData<InventoryModel, dynamic>(storedProcedure: "dbo.spInventory_GetAll",
                                                         parameters: new { },
@@ -24,7 +24,7 @@ namespace RSA.WebServer.Library.DataAccess
         }
         public void SaveInventoryRecord(InventoryModel inventoryRecord)
         {
-            var sql = new SqlDataAccess(_configuration);
+            using var sql = new SqlDataAccess(_configuration);
             sql.SaveData(storedProcedure: "[dbo].[spInventory_Insert]",
                          parameters: inventoryRecord,
                          connectionStringName: "RSAData");
