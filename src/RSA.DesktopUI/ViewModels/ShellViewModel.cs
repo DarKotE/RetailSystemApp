@@ -57,7 +57,7 @@ namespace RSA.DesktopUI.ViewModels
         public async Task HandleAsync(LogOnEventModel message, CancellationToken cancellationToken)
         {
             //redirect to sales page
-            await ActivateItemAsync(_salesVM);
+            await ActivateItemAsync(IoC.Get<SalesViewModel>());
             NotifyOfPropertyChange(() => IsLoggedIn);
         }
     }
