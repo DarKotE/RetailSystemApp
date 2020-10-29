@@ -7,13 +7,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "API", "API", "{9372E310-944
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WPF", "WPF", "{6EEEA375-6ECC-40FC-8F05-642211E19ADE}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RSAWebServer", "RSAWebServer\RSAWebServer.csproj", "{3B8A2217-2C07-4476-9893-3B42BCB6F918}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RSA.WebServer", "RSA.WebServer\RSA.WebServer.csproj", "{3B8A2217-2C07-4476-9893-3B42BCB6F918}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RSA.WebServer.Library", "RSA.WebServer.Library\RSA.WebServer.Library.csproj", "{1EDD5B1A-9C53-4AC4-86D5-FB9E2202791A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RSA.WebServer.Library", "RSA.WebServer.Library\RSA.WebServer.Library.csproj", "{1EDD5B1A-9C53-4AC4-86D5-FB9E2202791A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RSA.DesktopUI", "RSA.DesktopUI\RSA.DesktopUI.csproj", "{F0E2A305-9C09-4D0E-A3C1-EC622790CF26}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RSA.DesktopUI", "RSA.DesktopUI\RSA.DesktopUI.csproj", "{F0E2A305-9C09-4D0E-A3C1-EC622790CF26}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RSA.DesktopUI.Library", "RSA.DesktopUI.Library\RSA.DesktopUI.Library.csproj", "{969250E0-B9E4-4765-9C59-A5262C1D3D90}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RSA.DesktopUI.Library", "RSA.DesktopUI.Library\RSA.DesktopUI.Library.csproj", "{969250E0-B9E4-4765-9C59-A5262C1D3D90}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
