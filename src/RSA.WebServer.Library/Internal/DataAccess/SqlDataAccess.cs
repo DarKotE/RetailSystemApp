@@ -48,6 +48,7 @@ namespace RSA.WebServer.Library.Internal.DataAccess
         public void CommitTransaction()
         {
             _transaction?.Commit();
+            _transaction?.Dispose(); ////TODO CHECK
             _transaction = null;
             _connection?.Close();
             _connection = null;
@@ -55,7 +56,7 @@ namespace RSA.WebServer.Library.Internal.DataAccess
         public void RollbackTransaction()
         {
             _transaction.Rollback();
-            //_transaction.Dispose(); ////TODO CHECK
+            _transaction.Dispose(); ////TODO CHECK
             _transaction = null;
             _connection?.Close();
             _connection = null;
