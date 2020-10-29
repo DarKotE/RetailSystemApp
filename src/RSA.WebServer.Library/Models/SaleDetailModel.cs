@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-
-namespace RSADataManager.Library.Models
+﻿namespace RSA.WebServer.Library.Models
 {
     public class SaleDetailModel
     {

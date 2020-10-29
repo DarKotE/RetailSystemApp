@@ -1,8 +1,8 @@
 ﻿using System.Net.Http;
 using System.Threading.Tasks;
-using RSADesktopUI.Models;
+using RSA.DesktopUI.Library.Models;
 
-namespace RSADesktopUI.Library.Api
+namespace RSA.DesktopUI.Library.Api
 {
     public interface IAPIHelper
     {

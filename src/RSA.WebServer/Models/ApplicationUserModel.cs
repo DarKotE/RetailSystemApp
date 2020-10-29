@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System.Collections.Generic;
 
-namespace RSAWebServer.Models
+namespace RSA.WebServer.Models
 {
     public class ApplicationUserModel
     {

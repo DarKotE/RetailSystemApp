@@ -1,20 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Dynamic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using AutoMapper;
 using Caliburn.Micro;
-using RSADesktopUI.Library.Api;
-using RSADesktopUI.Library.Helpers;
-using RSADesktopUI.Library.Models;
-using RSADesktopUI.Models;
+using RSA.DesktopUI.Library.Api;
+using RSA.DesktopUI.Library.Helpers;
+using RSA.DesktopUI.Library.Models;
+using RSA.DesktopUI.Models;
 
-namespace RSADesktopUI.ViewModels
+namespace RSA.DesktopUI.ViewModels
 {
     public class SalesViewModel : Screen
     {

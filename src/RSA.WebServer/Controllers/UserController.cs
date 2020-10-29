@@ -1,21 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using System.Web;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
-using RSADataManager.Library.DataAccess;
-using RSADataManager.Library.Models;
-using RSAWebServer.Data;
-using RSAWebServer.Models;
+using RSA.WebServer.Data;
+using RSA.WebServer.Library.DataAccess;
+using RSA.WebServer.Library.Models;
+using RSA.WebServer.Models;
 
-namespace RSAWebServer.Controllers
+namespace RSA.WebServer.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

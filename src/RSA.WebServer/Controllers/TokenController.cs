@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
 using System.Text;
@@ -7,12 +8,10 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
-//using Microsoft.IdentityModel.JsonWebTokens;
-using System.IdentityModel.Tokens.Jwt;
-using RSAWebServer.Data;
+using RSA.WebServer.Data; //using Microsoft.IdentityModel.JsonWebTokens;
 
 
-namespace RSAWebServer.Controllers
+namespace RSA.WebServer.Controllers
 {
     public class TokenController : Controller
     {

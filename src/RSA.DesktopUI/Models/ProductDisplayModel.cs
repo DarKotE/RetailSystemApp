@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel;
 
-namespace RSADesktopUI.Models
+namespace RSA.DesktopUI.Models
 {
     public class ProductDisplayModel : INotifyPropertyChanged
     {

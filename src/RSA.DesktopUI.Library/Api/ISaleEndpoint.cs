@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
-using RSADesktopUI.Library.Models;
+using RSA.DesktopUI.Library.Models;
 
-namespace RSADesktopUI.Library.Api
+namespace RSA.DesktopUI.Library.Api
 {
     public interface ISaleEndpoint
     {

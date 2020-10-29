@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
-using RSADesktopUI.Library.Models;
+using RSA.DesktopUI.Library.Models;
 
-namespace RSADesktopUI.Library.Api
+namespace RSA.DesktopUI.Library.Api
 {
     public class SaleEndpoint : ISaleEndpoint
     {

@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace RSAWebServer.Data.Migrations
+namespace RSA.WebServer.Data.Migrations
 {
     public partial class CreateIdentitySchema : Migration
     {

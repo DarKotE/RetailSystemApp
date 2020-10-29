@@ -1,16 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Dynamic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using Caliburn.Micro;
-using RSADesktopUI.Library.Api;
-using RSADesktopUI.Library.Models;
+using RSA.DesktopUI.Library.Api;
+using RSA.DesktopUI.Library.Models;
 
-namespace RSADesktopUI.ViewModels
+namespace RSA.DesktopUI.ViewModels
 {
     public class UserDisplayViewModel : Screen
     {

@@ -1,15 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.Extensions.Configuration;
 using Dapper;
+using Microsoft.Extensions.Configuration;
 
-namespace RSADataManager.Library.Internal.DataAccess
+namespace RSA.WebServer.Library.Internal.DataAccess
 {
     internal class SqlDataAccess: IDisposable
     {

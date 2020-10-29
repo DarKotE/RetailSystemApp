@@ -1,4 +1,4 @@
-﻿namespace RSADesktopUI.Library.Helpers
+﻿namespace RSA.DesktopUI.Library.Helpers
 {
     public interface IConfigHelper
     {

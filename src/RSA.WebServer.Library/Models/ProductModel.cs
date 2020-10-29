@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace RSADataManager.Library.Models
+﻿namespace RSA.WebServer.Library.Models
 {
     public class ProductModel
     {

@@ -1,11 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Configuration;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace RSADataManager.Library.Helpers
+namespace RSA.WebServer.Library.Helpers
 {
     public class ConfigHelper 
     {

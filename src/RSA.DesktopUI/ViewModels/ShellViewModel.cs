@@ -1,15 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Caliburn.Micro;
-using RSADesktopUI.EventModels;
-using RSADesktopUI.Library.Api;
-using RSADesktopUI.Library.Models;
+using RSA.DesktopUI.EventModels;
+using RSA.DesktopUI.Library.Api;
+using RSA.DesktopUI.Library.Models;
 
-namespace RSADesktopUI.ViewModels
+namespace RSA.DesktopUI.ViewModels
 {
     public class ShellViewModel: Conductor<object>, IHandle<LogOnEventModel>
     {

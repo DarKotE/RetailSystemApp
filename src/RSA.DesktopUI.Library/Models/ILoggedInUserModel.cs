@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace RSADesktopUI.Library.Models
+namespace RSA.DesktopUI.Library.Models
 {
     public interface ILoggedInUserModel
     {

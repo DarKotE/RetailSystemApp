@@ -1,13 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Caliburn.Micro;
-using RSADesktopUI.EventModels;
-using RSADesktopUI.Library.Api;
+using RSA.DesktopUI.EventModels;
+using RSA.DesktopUI.Library.Api;
 
-namespace RSADesktopUI.ViewModels
+namespace RSA.DesktopUI.ViewModels
 {
     public class LoginViewModel : Screen
     {
@@ -20,8 +17,8 @@ namespace RSADesktopUI.ViewModels
             _events = events;
         }
 
-
         private string _userName = "evgenlight@yandex.ru";
+
         public string UserName
         {
             get { return _userName; }
@@ -34,6 +31,7 @@ namespace RSADesktopUI.ViewModels
 
         //WPF forbids direct passwordbox binding, so it is done via Caliburn.Micro Action
         private string _password = "!QAZ2wsx";
+
         public string Password
         {
             get { return _password; }
@@ -44,33 +42,32 @@ namespace RSADesktopUI.ViewModels
                 NotifyOfPropertyChange(() => CanLogIn);
             }
         }
+
         public bool IsErrorVisible => !String.IsNullOrWhiteSpace(ErrorMessage);
 
         private string _errorMessage;
+
         public string ErrorMessage
         {
             get { return _errorMessage; }
-            set 
-            { 
+            set
+            {
                 _errorMessage = value;
                 NotifyOfPropertyChange(() => IsErrorVisible);
                 NotifyOfPropertyChange(() => ErrorMessage);
             }
         }
 
-
-        //event fired via cal:Message.Attach.  
+        //event fired via cal:Message.Attach.
         public void OnPasswordChanged(System.Windows.Controls.PasswordBox source)
         {
             Password = source.Password;
         }
 
-
         public bool CanLogIn =>
             //condition
-            UserName?.Length > 0 
+            UserName?.Length > 0
             && Password?.Length > 0;
-
 
         public async Task LogIn()
         {
@@ -88,9 +85,7 @@ namespace RSADesktopUI.ViewModels
             catch (Exception ex)
             {
                 ErrorMessage = ex.Message;
-            
             }
-        } 
-
+        }
     }
 }

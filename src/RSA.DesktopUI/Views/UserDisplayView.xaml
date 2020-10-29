@@ -1,10 +1,9 @@
-﻿<UserControl x:Class="RSADesktopUI.Views.UserDisplayView"
+﻿<UserControl x:Class="RSA.DesktopUI.Views.UserDisplayView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:cal="clr-namespace:Caliburn.Micro;assembly=Caliburn.Micro.Platform"
-             xmlns:local="clr-namespace:RSADesktopUI.Views"
              mc:Ignorable="d" Background="White" FontSize="24"
              d:DesignHeight="500" d:DesignWidth="800">
     <Grid>

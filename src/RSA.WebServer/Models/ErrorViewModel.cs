@@ -1,6 +1,4 @@
-using System;
-
-namespace RSAWebServer.Models
+namespace RSA.WebServer.Models
 {
     public class ErrorViewModel
     {
