@@ -2,7 +2,9 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
-    <UserSecretsId>aspnet-RSAWebServer-3DB9DA2E-ACF1-4642-81CF-0AB40633EC92</UserSecretsId>
+	  <LangVersion>8.0</LangVersion>
+	  <Nullable>enable</Nullable>
+	  <UserSecretsId>aspnet-RSAWebServer-3DB9DA2E-ACF1-4642-81CF-0AB40633EC92</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>

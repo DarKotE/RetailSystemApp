@@ -4,6 +4,7 @@ using System.Dynamic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Automation;
 using Caliburn.Micro;
 using RSA.DesktopUI.Library.Api;
 using RSA.DesktopUI.Library.Models;
@@ -16,62 +17,60 @@ namespace RSA.DesktopUI.ViewModels
         private readonly IWindowManager _window;
         private readonly IUserEndpoint _userEndpoint;
 
-        private BindingList<ApplicationUserModel> _userList;
-        public BindingList<ApplicationUserModel> UserList
+        private BindingList<ApplicationUserModel>? _userList;
+        public BindingList<ApplicationUserModel>? UserList
         {
-            get { return _userList; }
+            get => _userList;
             set
             {
                 _userList = value;
                 NotifyOfPropertyChange(() => UserList);
             }
         }
-        private ApplicationUserModel _selectedUser;
-        public ApplicationUserModel SelectedUser
+        private ApplicationUserModel? _selectedUser;
+        public ApplicationUserModel? SelectedUser
         {
-            get
-            {
-                return _selectedUser;
-            }
+            get => _selectedUser;
             set
             {
-                _selectedUser = value;
-                SelectedUserName = value.Email;
-                UserRoles.Clear();
-                UserRoles = new BindingList<string>(value.Roles.Select(x => x.Value).ToList());
-                AvailableRoles = new BindingList<string>(PreloadedAvailableRoles.Except(UserRoles).ToList());
+                if (value != null)
+                {
+                    _selectedUser = value;
+                    SelectedUserName = value.Email;
+                    UserRoles = new BindingList<string>(value.Roles.Select(x => x.Value).ToList());
+                    AvailableRoles = new BindingList<string>(PreloadedAvailableRoles.Except(UserRoles).ToList());
+                }
                 NotifyOfPropertyChange(() => AvailableRoles);
                 NotifyOfPropertyChange(() => SelectedUser);
             }
         }
 
-        private string _selectedUserName;
+        private string _selectedUserName = String.Empty;
         public string SelectedUserName
         {
-            get { return _selectedUserName; }
+            get => _selectedUserName;
             set
             {
                 _selectedUserName = value;
                 NotifyOfPropertyChange(() => SelectedUserName);
             }
         }
-
-        private BindingList<string> _userRoles = new BindingList<string>();
-        public BindingList<string> UserRoles
+            //= new BindingList<string>()
+        private BindingList<string>? _userRoles;
+        public BindingList<string>? UserRoles
         {
-            get { return _userRoles; }
+            get => _userRoles;
             set
             {
                 _userRoles = value;
-                NotifyOfPropertyChange(() => SelectedUser.RoleList);
                 NotifyOfPropertyChange(() => UserRoles);
             }
         }
 
-        private BindingList<string> _availableRoles = new BindingList<string>();
-        public BindingList<string> AvailableRoles
+        private BindingList<string>? _availableRoles;
+        public BindingList<string>? AvailableRoles
         {
-            get { return _availableRoles; }
+            get => _availableRoles;
             set
             {
                 _availableRoles = value;
@@ -79,27 +78,31 @@ namespace RSA.DesktopUI.ViewModels
             }
         }
 
-        public BindingList<string> PreloadedAvailableRoles { get; set; }
+        public BindingList<string>? PreloadedAvailableRoles { get; private set; }
 
-        private string _selectedUserRole;
-        public string SelectedUserRole
+        private string? _selectedUserRole;
+        public string? SelectedUserRole
         {
-            get { return _selectedUserRole; }
+            get => _selectedUserRole;
             set
             {
                 _selectedUserRole = value;
                 NotifyOfPropertyChange(() => SelectedUserRole);
+                NotifyOfPropertyChange(() => SelectedAvailableRole);
+                NotifyOfPropertyChange(() => CanRemoveSelectedRole);
+                NotifyOfPropertyChange(() => CanAddSelectedRole);
             }
         }
 
-        private string _selectedAvailableRole;
-        public string SelectedAvailableRole
+        private string? _selectedAvailableRole;
+        public string? SelectedAvailableRole
         {
-            get { return _selectedAvailableRole; }
+            get => _selectedAvailableRole;
             set
             {
                 _selectedAvailableRole = value;
-                NotifyOfPropertyChange(() => SelectedAvailableRole);
+                NotifyOfPropertyChange(() => CanAddSelectedRole);
+                NotifyOfPropertyChange(() => CanRemoveSelectedRole);
             }
         }
 
@@ -153,17 +156,61 @@ namespace RSA.DesktopUI.ViewModels
             PreloadedAvailableRoles = new BindingList<string>(roles.Select(x => x.Value).ToList());
         }
 
+        public bool CanAddSelectedRole => SelectedAvailableRole != null;
+
+        public bool CanRemoveSelectedRole => SelectedUserRole != null;
+
+
         public async Task AddSelectedRole()
         {
-            await _userEndpoint.AddUserToRole(SelectedUser.Id, SelectedAvailableRole);
-            UserRoles.Add(SelectedAvailableRole);
-            AvailableRoles.Remove(SelectedAvailableRole);
+            if (SelectedUser != null && SelectedAvailableRole != null && UserRoles != null && AvailableRoles != null)
+            {
+                await _userEndpoint.AddUserToRole(SelectedUser.Id, SelectedAvailableRole);
+                UserRoles.Add(SelectedAvailableRole);
+                AvailableRoles.Remove(SelectedAvailableRole);
+                NotifyOfPropertyChange(() => CanAddSelectedRole);
+                NotifyOfPropertyChange(() => CanRemoveSelectedRole);
+            }
+            else
+            {
+                // Should be unreachable since button should be disabled
+                // TODO simplify
+                dynamic settings = new ExpandoObject();
+                settings.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+                settings.ResizeMode = ResizeMode.NoResize;
+                settings.Title = "Null reference exception";
+                {
+                    _status.UpdateMessage("Fatal exception", "Null reference exception");
+                    await _window.ShowDialogAsync(_status, null, settings);
+                }
+                await TryCloseAsync();
+            }
         }
         public async Task RemoveSelectedRole()
         {
-            await _userEndpoint.RemoveUserFromRole(SelectedUser.Id, SelectedUserRole);
-            AvailableRoles.Add(SelectedUserRole);
-            UserRoles.Remove(SelectedUserRole);
+            if (SelectedUser != null && SelectedUserRole != null && UserRoles != null && AvailableRoles != null)
+            {
+                await _userEndpoint.RemoveUserFromRole(SelectedUser.Id, SelectedUserRole);
+                AvailableRoles.Add(SelectedUserRole);
+                UserRoles.Remove(SelectedUserRole);
+                NotifyOfPropertyChange(() => CanAddSelectedRole);
+                NotifyOfPropertyChange(() => CanRemoveSelectedRole);
+            }
+            else
+            {
+                // Should be unreachable since button should be disabled
+                // TODO simplify
+                dynamic settings = new ExpandoObject();
+                settings.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+                settings.ResizeMode = ResizeMode.NoResize;
+                settings.Title = "Null reference exception";
+                {
+                    _status.UpdateMessage("Fatal exception", "Null reference exception");
+                    await _window.ShowDialogAsync(_status, null, settings);
+                }
+                await TryCloseAsync();
+            }
         }
     }
 }
+

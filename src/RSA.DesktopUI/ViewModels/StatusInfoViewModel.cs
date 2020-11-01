@@ -1,11 +1,12 @@
-﻿using Caliburn.Micro;
+﻿using System;
+using Caliburn.Micro;
 
 namespace RSA.DesktopUI.ViewModels
 {
     public class StatusInfoViewModel: Screen
     {
-        public string Header { get; private set; }
-        public string Message { get; private set; }
+        public string Header { get; private set; } = String.Empty;
+        public string Message { get; private set; } = String.Empty;
 
         public void UpdateMessage(string header, string message)
         {

@@ -21,7 +21,7 @@ namespace RSA.DesktopUI.ViewModels
 
         public string UserName
         {
-            get { return _userName; }
+            get => _userName;
             set
             {
                 _userName = value;
@@ -34,7 +34,7 @@ namespace RSA.DesktopUI.ViewModels
 
         public string Password
         {
-            get { return _password; }
+            get => _password;
             set
             {
                 _password = value;
@@ -45,11 +45,11 @@ namespace RSA.DesktopUI.ViewModels
 
         public bool IsErrorVisible => !String.IsNullOrWhiteSpace(ErrorMessage);
 
-        private string _errorMessage;
+        private string? _errorMessage;
 
-        public string ErrorMessage
+        public string? ErrorMessage
         {
-            get { return _errorMessage; }
+            get => _errorMessage;
             set
             {
                 _errorMessage = value;
@@ -77,7 +77,7 @@ namespace RSA.DesktopUI.ViewModels
                 //fetch additional information on user
                 await _apiHelper.GetLoggedInUserInfo(result.Access_Token);
 
-                //in absence of exception clear errormessage textblock errors and hide it
+                //in absence of exception - clear error message text block and hide it
                 ErrorMessage = String.Empty;
 
                 await _events.PublishOnUIThreadAsync(new LogOnEventModel());

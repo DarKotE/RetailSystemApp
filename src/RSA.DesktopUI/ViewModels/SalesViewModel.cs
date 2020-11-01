@@ -73,10 +73,10 @@ namespace RSA.DesktopUI.ViewModels
             Products = new BindingList<ProductDisplayModel>(products);
         }
 
-        private BindingList<ProductDisplayModel> _products;
-        public BindingList<ProductDisplayModel> Products
+        private BindingList<ProductDisplayModel>? _products;
+        public BindingList<ProductDisplayModel>? Products
         {
-            get { return _products; }
+            get => _products;
             set
             {
                 _products = value;
@@ -93,10 +93,10 @@ namespace RSA.DesktopUI.ViewModels
             NotifyOfPropertyChange(() => CanCheckOut);
         }
 
-        private ProductDisplayModel _selectedProduct;
-        public ProductDisplayModel SelectedProduct
+        private ProductDisplayModel? _selectedProduct;
+        public ProductDisplayModel? SelectedProduct
         {
-            get { return _selectedProduct; }
+            get => _selectedProduct;
             set
             {
                 _selectedProduct = value;
@@ -105,10 +105,10 @@ namespace RSA.DesktopUI.ViewModels
             }
         }
 
-        private CartItemDisplayModel _selectedCartItem;
-        public CartItemDisplayModel SelectedCartItem
+        private CartItemDisplayModel? _selectedCartItem;
+        public CartItemDisplayModel? SelectedCartItem
         {
-            get { return _selectedCartItem; }
+            get => _selectedCartItem;
             set
             {
                 _selectedCartItem = value;
@@ -120,21 +120,15 @@ namespace RSA.DesktopUI.ViewModels
         private BindingList<CartItemDisplayModel> _cart = new BindingList<CartItemDisplayModel>();
         public BindingList<CartItemDisplayModel> Cart
         {
-            get { return _cart; }
+            get => _cart;
             set
             {
                 _cart = value;
                 NotifyOfPropertyChange(() => Cart);
             }
-        }
+        } 
 
-        public string SubTotal
-        {
-            get
-            {
-                return CalculateSubTotal().ToString("C");
-            }
-        }
+        public string SubTotal => CalculateSubTotal().ToString("C");
 
         private decimal CalculateSubTotal()
         {
@@ -142,13 +136,7 @@ namespace RSA.DesktopUI.ViewModels
                     .Sum(x => x.Product.RetailPrice * x.QuantityInCart);
         }
 
-        public string Tax
-        {
-            get
-            {
-                return CalculateTax().ToString("C");
-            }
-        }
+        public string Tax => CalculateTax().ToString("C");
 
         private decimal CalculateTax()
         {
@@ -170,7 +158,7 @@ namespace RSA.DesktopUI.ViewModels
         private int _itemQuantity = 1;
         public int ItemQuantity
         {
-            get { return _itemQuantity; }
+            get => _itemQuantity;
             set
             {
                 _itemQuantity = value;
@@ -187,42 +175,55 @@ namespace RSA.DesktopUI.ViewModels
         public void AddToCart()
         {
             //try to find out if item already is in the cart
-            CartItemDisplayModel existingItem = Cart.FirstOrDefault(x => x.Product == SelectedProduct);
+            CartItemDisplayModel? existingItem = Cart.FirstOrDefault(x => x.Product == SelectedProduct);
 
-            bool haveSameInCart = existingItem != null;
-            if (haveSameInCart)
+            if (existingItem is null)
             {
-                existingItem.QuantityInCart += ItemQuantity;
-            }
-            else
-            {
-                var item = new CartItemDisplayModel {
+                var item = new CartItemDisplayModel
+                {
                     Product = SelectedProduct,
                     QuantityInCart = ItemQuantity
                 };
                 Cart.Add(item);
+
             }
-            SelectedProduct.QuantityInStock -= ItemQuantity;
-            ItemQuantity = 1;
-            NotifyOfPropertyChange(() => SubTotal);
-            NotifyOfPropertyChange(() => Tax);
-            NotifyOfPropertyChange(() => Total);
-            NotifyOfPropertyChange(() => CanCheckOut);
+            else
+            {
+                existingItem.QuantityInCart += ItemQuantity;
+                
+            }
+            if (SelectedProduct!=null)
+            {
+                SelectedProduct.QuantityInStock -= ItemQuantity;
+                ItemQuantity = 1;
+                NotifyOfPropertyChange(() => SubTotal);
+                NotifyOfPropertyChange(() => Tax);
+                NotifyOfPropertyChange(() => Total);
+                NotifyOfPropertyChange(() => CanCheckOut);
+            }
+            else
+            {
+                // TODO log it?
+            }
         }
 
         public bool CanRemoveFromCart => SelectedCartItem?.QuantityInCart > 0;
 
         public void RemoveFromCart()
         {
-            SelectedCartItem.Product.QuantityInStock++;
-            if (SelectedCartItem.QuantityInCart > 1)
+            if (SelectedCartItem != null)
             {
-                SelectedCartItem.QuantityInCart--;
+                SelectedCartItem.Product.QuantityInStock++;
+                if (SelectedCartItem.QuantityInCart > 1)
+                {
+                    SelectedCartItem.QuantityInCart--;
+                }
+                else
+                {
+                    Cart.Remove(SelectedCartItem);
+                }
             }
-            else
-            {
-                Cart.Remove(SelectedCartItem);
-            }
+
             NotifyOfPropertyChange(() => SubTotal);
             NotifyOfPropertyChange(() => Tax);
             NotifyOfPropertyChange(() => Total);
