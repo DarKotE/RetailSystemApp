@@ -5,8 +5,8 @@ namespace RSA.DesktopUI.Models
     public class CartItemDisplayModel : INotifyPropertyChanged
     {
         private int _quantityInCart;
-
-        public ProductDisplayModel Product { get; set; }
+#nullable disable //Doesn't work with Automapper 
+        public ProductDisplayModel Product { get; set; } 
         public int QuantityInCart
         {
             get

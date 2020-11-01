@@ -5,7 +5,7 @@ namespace RSA.DesktopUI.Models
     public class ProductDisplayModel : INotifyPropertyChanged
     {
         private int _quantityInStock;
-
+#nullable disable //Doesn't work with Automapper 
         public int Id { get; set; }
         public string ProductName { get; set; }
         public string Description { get; set; }
