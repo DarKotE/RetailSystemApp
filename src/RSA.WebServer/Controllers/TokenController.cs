@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using RSA.WebServer.Data; //using Microsoft.IdentityModel.JsonWebTokens;
 
@@ -17,12 +18,15 @@ namespace RSA.WebServer.Controllers
     {
         private readonly ApplicationDbContext _context;
         private readonly UserManager<IdentityUser> _userManager;
+        private readonly IConfiguration _configuration;
 
         public TokenController(ApplicationDbContext context,
-               UserManager<IdentityUser> userManager)
+                               UserManager<IdentityUser> userManager,
+                               IConfiguration configuration)
         {
             _context = context;
             _userManager = userManager;
+            _configuration = configuration;
         }
 
         [Route("/token")]
@@ -69,7 +73,7 @@ namespace RSA.WebServer.Controllers
             JwtSecurityToken token =new JwtSecurityToken(
                 header:             new JwtHeader(
                 signingCredentials: new SigningCredentials(
-                key:                new SymmetricSecurityKey(Encoding.UTF8.GetBytes("iEYAFytP7xsmQUxndJXviEYAFytP7xsmQUxndJXv")), //TODO make env variable
+                key:                new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration.GetValue<string>("Secrets:SecretKey"))), //TODO make env variable
                 algorithm:          SecurityAlgorithms.HmacSha256)),    
                 payload:            new JwtPayload(claims));
                 //TODO https://security-code-scan.github.io/#SCS0016
