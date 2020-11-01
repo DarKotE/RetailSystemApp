@@ -5,6 +5,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using Dapper;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 
 namespace RSA.WebServer.Library.Internal.DataAccess
 {
@@ -13,13 +14,15 @@ namespace RSA.WebServer.Library.Internal.DataAccess
         private IDbConnection _connection;
         private IDbTransaction _transaction;
         private readonly IConfiguration _configuration;
+        private readonly ILogger<SqlDataAccess> _logger;
 
-        public SqlDataAccess(IConfiguration configuration)
+        public SqlDataAccess(IConfiguration configuration, ILogger<SqlDataAccess> logger)
         {
             _configuration = configuration;
+            _logger = logger;
         }
 
-        public string GetConnectionString(string name)
+        private string GetConnectionString(string name)
         {
             return _configuration.GetConnectionString(name);
         }
@@ -49,17 +52,19 @@ namespace RSA.WebServer.Library.Internal.DataAccess
         {
             _transaction?.Commit();
             _transaction?.Dispose(); ////TODO CHECK
-            _transaction = null;
+            //_transaction = null;
             _connection?.Close();
-            _connection = null;
+            _connection?.Dispose();
+            //_connection = null;
         }
         public void RollbackTransaction()
         {
-            _transaction.Rollback();
-            _transaction.Dispose(); ////TODO CHECK
-            _transaction = null;
+            _transaction?.Rollback();
+            _transaction?.Dispose(); ////TODO CHECK
+            //_transaction = null;
             _connection?.Close();
-            _connection = null;
+            //_connection = null;
+            _logger.LogError("Transaction failed, rollback was called");
         }
         public void SaveDataInTransaction<T>(string storedProcedure, T parameters) =>
             _connection
@@ -83,7 +88,14 @@ namespace RSA.WebServer.Library.Internal.DataAccess
 
         public virtual void Dispose(bool disposing)
         {
-            CommitTransaction();
+            try
+            {
+                CommitTransaction();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Commit transaction failed in the dispose method: {ex.Message}");
+            }
         }
 
 

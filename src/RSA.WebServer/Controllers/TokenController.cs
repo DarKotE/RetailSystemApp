@@ -27,8 +27,11 @@ namespace RSA.WebServer.Controllers
 
         [Route("/token")]
         [HttpPost]
-        public async Task<IActionResult> Create(string username, string password, string grant_type)
+        //[ValidateAntiForgeryToken] // TODO check if it is enough
+        // TODO consider removing old token-based api
+        public async Task<IActionResult> Create(string username, string password/*, string grant_type*/)
         {
+            
             if (await IsValidUserPassword(username, password))
             {
                 return new ObjectResult(await GenerateToken(username));

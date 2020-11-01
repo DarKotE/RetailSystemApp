@@ -1,11 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using RSA.WebServer.Data;
 using RSA.WebServer.Library.DataAccess;
 using RSA.WebServer.Library.Models;
@@ -21,14 +22,17 @@ namespace RSA.WebServer.Controllers
         private readonly ApplicationDbContext _context;
         private readonly UserManager<IdentityUser> _userManager;
         private readonly IUserData _userData;
+        private readonly ILogger<UserController> _logger;
 
         public UserController(ApplicationDbContext context,
                               UserManager<IdentityUser> userManager,
-                              IUserData userData)
+                              IUserData userData,
+                              ILogger<UserController> logger)
         {
             _context = context;
             _userManager = userManager;
             _userData = userData;
+            _logger = logger;
         }
 
         [HttpGet]
@@ -42,29 +46,25 @@ namespace RSA.WebServer.Controllers
         [Authorize(Roles = "Admin")]
         [HttpGet]
         [Route("Admin/GetAllUsers")]
-        public List<ApplicationUserModel> GetAllUsers()
+        public IEnumerable<ApplicationUserModel> GetAllUsers()
         {
-            var output = new List<ApplicationUserModel>();
+            //var output = new List<ApplicationUserModel>();
 
-            var users = _context.Users.ToList();
-            var userRoles = from ur in _context.UserRoles
-                            join r in _context.Roles 
-                            on ur.RoleId equals r.Id
-                            select new { ur.UserId, ur.RoleId, r.Name };
-            foreach (var u in users.Select(user => new ApplicationUserModel
+            IEnumerable<IdentityUser> users = _context.Users;
+            var userRoles =
+                _context.UserRoles.Join(_context.Roles, ur => ur.RoleId, r => r.Id,
+                                        (ur, r) => new {ur.UserId, ur.RoleId, r.Name});
+            
+            foreach (IdentityUser user in users)
             {
-                Id = user.Id,
-                Email = user.Email
-            }))
-            {
-                u.Roles = userRoles.Where(x => x.UserId == u.Id)
-                    .ToDictionary(key => key.RoleId,
-                        val => val.Name);
-                output.Add(u);
+                var u = new ApplicationUserModel(user.Id, user.Email);
+                Dictionary<string, string> dictionary = new Dictionary<string, string>();
+                foreach (var role in userRoles
+                   .Where(x => x.UserId == u.Id))
+                    dictionary.Add(role.RoleId, role.Name);
+                u.Roles = dictionary;
+                yield return u;
             }
-
-            return output;
-
         }
 
         [Authorize(Roles = "Admin")]
@@ -72,9 +72,7 @@ namespace RSA.WebServer.Controllers
         [Route("Admin/GetAllRoles")]
         public Dictionary<string, string> GetAllRoles()
         {
-
             return _context.Roles.ToDictionary(x => x.Id, x => x.Name);
-
         }
 
         [Authorize(Roles = "Admin")]
@@ -82,9 +80,20 @@ namespace RSA.WebServer.Controllers
         [Route("Admin/AddRole")]
         public async Task AddRole(UserRolePairModel pair)
         {
-            var userIdentity =await _userManager.FindByIdAsync(pair.UserId);
-            await _userManager.AddToRoleAsync(userIdentity, pair.RoleName);
+            string loggedUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var loggedUser =_userData.GetUserById(loggedUserId);
 
+            var userIdentity = await _userManager.FindByIdAsync(pair.UserId);
+            if (userIdentity is null)
+            {
+                // TODO log?
+            }
+            else
+            {
+                _logger.LogInformation("Admin {Admin} added user {User} to role {Role}",
+                                       loggedUser.EmailAddress, userIdentity.Email, pair.RoleName);
+                await _userManager.AddToRoleAsync(userIdentity, pair.RoleName);
+            }
         }
 
         [Authorize(Roles = "Admin")]
@@ -92,8 +101,20 @@ namespace RSA.WebServer.Controllers
         [Route("Admin/RemoveRole")]
         public async Task RemoveRole(UserRolePairModel pair)
         {
+            string loggedUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var loggedUser = _userData.GetUserById(loggedUserId);
+
             var userIdentity = await _userManager.FindByIdAsync(pair.UserId);
-            await _userManager.RemoveFromRoleAsync(userIdentity, pair.RoleName);
+            if (userIdentity is null)
+            {
+                // TODO log?
+            }
+            else
+            {
+                _logger.LogInformation("Admin {Admin} removed user {User} to role {Role}",
+                                       loggedUser.EmailAddress, userIdentity.Email, pair.RoleName);
+                await _userManager.RemoveFromRoleAsync(userIdentity, pair.RoleName);
+            }
         }
     }
 }
