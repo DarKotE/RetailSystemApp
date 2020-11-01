@@ -35,7 +35,8 @@ namespace RSA.WebServer
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddControllersWithViews();
             services.AddRazorPages();
-            
+
+
             // Custom settings
             services.AddTransient<IInventoryData, InventoryData>();
             services.AddTransient<ISqlDataAccess, SqlDataAccess>();
@@ -60,7 +61,7 @@ namespace RSA.WebServer
                     jwtBearerOptions.TokenValidationParameters = new TokenValidationParameters
                     {
                         ValidateIssuerSigningKey = true,
-                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("iEYAFytP7xsmQUxndJXviEYAFytP7xsmQUxndJXv")), //TODO make env variable
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration.GetValue<string>("Secrets:SecretKey"))), //TODO make env variable
                         ValidateIssuer = false,
                         ValidateAudience = false,
                         ValidateLifetime = true,
