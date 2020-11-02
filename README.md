@@ -1,6 +1,6 @@
-Dev:[![Build status](https://dev.azure.com/DarKotE/RetailSystemApp/_apis/build/status/RetailSystemApp-ASP.NET-CI?branchName=dev)](NOTURL)
+Dev: [![Build status](https://dev.azure.com/DarKotE/RetailSystemApp/_apis/build/status/RetailSystemApp-ASP.NET-CI?branchName=dev)](https://github.com/DarKotE/RetailSystemApp/tags)
 
-Release:[![Build status](https://dev.azure.com/DarKotE/RetailSystemApp/_apis/build/status/RetailSystemApp-ASP.NET-CI?branchName=release)](NOTURL)
+Release: [![Build status](https://dev.azure.com/DarKotE/RetailSystemApp/_apis/build/status/RetailSystemApp-ASP.NET-CI?branchName=release)](https://github.com/DarKotE/RetailSystemApp/tags)
 
 # [WIP] RetailSystemApp
 # Небольшой тренировочный проект реализующий систему продаж с использованием:
