@@ -31,16 +31,21 @@ namespace RSA.DesktopUI.ViewModels
         }
 
         public bool IsLoggedIn => !String.IsNullOrWhiteSpace(_user.Token);
+        public bool IsLoggedOut => !IsLoggedIn;
 
-        public void ExitApp()
+        public Task ExitApp()
         {
-            TryCloseAsync();
+            return TryCloseAsync();
         }
-        public void UserManagement()
+        public Task UserManagement()
         {
-            ActivateItemAsync(IoC.Get<UserDisplayViewModel>());
+            return ActivateItemAsync(IoC.Get<UserDisplayViewModel>());
         }
 
+        public Task LogIn()
+        {
+            return ActivateItemAsync(IoC.Get<LoginViewModel>());
+        }
 
         public async Task LogOut()
         {
@@ -48,6 +53,7 @@ namespace RSA.DesktopUI.ViewModels
             _apiHelper.LogOffUser();
             await ActivateItemAsync(IoC.Get<LoginViewModel>());
             NotifyOfPropertyChange(() => IsLoggedIn);
+            NotifyOfPropertyChange(() => IsLoggedOut);
         }
 
 
@@ -56,6 +62,7 @@ namespace RSA.DesktopUI.ViewModels
             //redirect to sales page
             await ActivateItemAsync(IoC.Get<SalesViewModel>());
             NotifyOfPropertyChange(() => IsLoggedIn);
+            NotifyOfPropertyChange(() => IsLoggedOut);
         }
     }
 }

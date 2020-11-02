@@ -10,13 +10,12 @@
             <MenuItem Header="_File">
                 <MenuItem x:Name="ExitApp" Header="E_xit"/>
             </MenuItem>
-            <MenuItem Header="_Users">
+            <MenuItem Header="_Users" Visibility="{Binding IsLoggedIn, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}">
                 <MenuItem x:Name="UserManagement" Header="User_Management"/>
             </MenuItem>
             <MenuItem Header="_Account">
-                <MenuItem x:Name="LogOut" Header="_Log Out" Visibility="{Binding IsLoggedIn, 
-                Converter={StaticResource BooleanToVisibilityConverter}, 
-                FallbackValue=Collapsed}"/>
+                <MenuItem x:Name="LogOut" Header="Log _Out" Visibility="{Binding IsLoggedIn, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}"/>
+                <MenuItem x:Name="LogIn" Header="Log _In" Visibility="{Binding IsLoggedOut, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}"/>
             </MenuItem>
         </Menu>
         <Grid>
