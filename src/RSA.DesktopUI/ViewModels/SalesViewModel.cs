@@ -140,7 +140,7 @@ namespace RSA.DesktopUI.ViewModels
 
         private decimal CalculateTax()
         {
-            decimal taxRate = _configHelper.GetTaxRate() / 100;
+            decimal taxRate = _configHelper.GetTaxRate();
             return Cart
                     .Where(x => x.Product.IsTaxable)
                     .Sum(x => x.Product.RetailPrice * x.QuantityInCart * taxRate);

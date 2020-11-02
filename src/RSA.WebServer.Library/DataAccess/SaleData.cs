@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
-using RSA.WebServer.Library.Helpers;
+using Microsoft.Extensions.Configuration;
 using RSA.WebServer.Library.Internal.DataAccess;
 using RSA.WebServer.Library.Models;
 
@@ -12,18 +13,36 @@ namespace RSA.WebServer.Library.DataAccess
 
         private readonly IProductData _productData;
         private readonly ISqlDataAccess _sql;
+        private readonly IConfiguration _configuration;
 
-        public SaleData(IProductData productData,ISqlDataAccess sql)
+        public SaleData(IProductData productData,
+                        ISqlDataAccess sql,
+                        IConfiguration configuration)
         {
             _productData = productData;
             _sql = sql;
+            _configuration = configuration;
+        }
+
+        public decimal GetTaxRate()
+        {
+            // string rateText = ConfigurationManager.AppSettings["taxRate"];
+            // TODO replace constant tax rate with configurator 
+            string rateText = _configuration.GetValue<string>("TaxRate");
+
+            bool isTaxValid = Decimal.TryParse(rateText, result: out decimal output);
+
+            if (isTaxValid)
+                return output;
+            else
+                throw new ConfigurationErrorsException("The tax rate is not set up properly");
         }
 
         //TODO remove biz-logic
         public void SaveSale(SaleModel saleInfo, string cashierId)
         {
             var details = new List<SaleDetailDbModel>();
-            var taxRate = ConfigHelper.GetTaxRate();
+            var taxRate = GetTaxRate();
             foreach (var item in saleInfo.SaleDetails)
             {
                 var detail = new SaleDetailDbModel
@@ -40,7 +59,7 @@ namespace RSA.WebServer.Library.DataAccess
                 detail.PurchasePrice = productInfo.RetailPrice * detail.Quantity;
                 if (productInfo.IsTaxable)
                 {
-                    detail.Tax = detail.PurchasePrice * taxRate / 100;
+                    detail.Tax = detail.PurchasePrice * taxRate;
                 }
                 details.Add(detail);
             }

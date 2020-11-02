@@ -33,5 +33,13 @@ namespace RSA.WebServer.Controllers
         {
             return _saleData.GetSaleReport();
         }
+
+        [HttpGet]
+        [AllowAnonymous]
+        [Route("GetTaxRate")]
+        public decimal GetTaxRate()
+        {
+            return _saleData.GetTaxRate();
+        }
     }
 }
