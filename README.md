@@ -1,3 +1,7 @@
+Dev:[![Build status](https://dev.azure.com/DarKotE/RetailSystemApp/_apis/build/status/RetailSystemApp-ASP.NET-CI?branchName=dev)](NOTURL)
+
+Release:[![Build status](https://dev.azure.com/DarKotE/RetailSystemApp/_apis/build/status/RetailSystemApp-ASP.NET-CI?branchName=release)](NOTURL)
+
 # [WIP] RetailSystemApp
 # Небольшой тренировочный проект реализующий систему продаж с использованием:
 #   ~~Asp.net MVC~~ Asp.net Core (перенесено)
