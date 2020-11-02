@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -8,19 +9,19 @@ namespace RSA.WebServer.Controllers
 {
     public class HomeController : Controller
     {
-        //private readonly ILogger<HomeController> _logger;
-        //private readonly RoleManager<IdentityRole> _roleManager;
-        //private readonly UserManager<IdentityUser> _userManager;
+        private readonly ILogger<HomeController> _logger;
+        private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly UserManager<IdentityUser> _userManager;
 
         public HomeController(
-            //ILogger<HomeController> logger,
-            //RoleManager<IdentityRole> roleManager,
-            //UserManager<IdentityUser> userManager
+            ILogger<HomeController> logger,
+            RoleManager<IdentityRole> roleManager,
+            UserManager<IdentityUser> userManager
         )
         {
-            //_logger = logger;
-            //_roleManager = roleManager;
-            //_userManager = userManager;
+            _logger = logger;
+            _roleManager = roleManager;
+            _userManager = userManager;
         }
 
         public IActionResult Index()
@@ -28,24 +29,26 @@ namespace RSA.WebServer.Controllers
             return View();
         }
 
-        //public async Task<IActionResult> Privacy()
-        public IActionResult Privacy()
+        public async Task<IActionResult> Privacy()
+        //public IActionResult Privacy()
         {
-            //string[] roles = { "Admin", "Manager", "Cashier" };
-            //foreach (var role in roles)
-            //{
-            //    var roleExists = await _roleManager.RoleExistsAsync(role);
-            //    if (!roleExists)
-            //    {
-            //        await _roleManager.CreateAsync(new IdentityRole(role));
-            //    }
-            //}
-            //var user = await _userManager.FindByEmailAsync("evgenlight@yandex.ru");
-            //if (user != null)
-            //{
-            //    await _userManager.AddToRoleAsync(user, "Admin");
-            //    await _userManager.AddToRoleAsync(user, "Cashier");
-            //}
+            // Temporary initialization of usertable
+            // TODO extract this to configuration
+            string[] roles = { "Admin", "Manager", "Cashier" };
+            foreach (var role in roles)
+            {
+                var roleExists = await _roleManager.RoleExistsAsync(role);
+                if (!roleExists)
+                {
+                    await _roleManager.CreateAsync(new IdentityRole(role));
+                }
+            }
+            var user = await _userManager.FindByEmailAsync("evgenlight@yandex.ru");
+            if (user != null)
+            {
+                await _userManager.AddToRoleAsync(user, "Admin");
+                await _userManager.AddToRoleAsync(user, "Cashier");
+            }
 
             return View();
         }
