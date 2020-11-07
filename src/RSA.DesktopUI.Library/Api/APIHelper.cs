@@ -4,6 +4,7 @@ using System.Configuration;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Configuration;
 using RSA.DesktopUI.Library.Models;
 
 namespace RSA.DesktopUI.Library.Api
@@ -12,11 +13,13 @@ namespace RSA.DesktopUI.Library.Api
     {
         private HttpClient _apiClient;
         private readonly ILoggedInUserModel _loggedInUser;
+        private readonly IConfiguration _config;
 
-        public ApiHelper(ILoggedInUserModel loggedInUser)
+        public ApiHelper(ILoggedInUserModel loggedInUser, IConfiguration config)
         {
-            InitializeClient();
             _loggedInUser = loggedInUser;
+            _config = config;
+            InitializeClient();
         }
 
         public HttpClient ApiClient
@@ -31,11 +34,12 @@ namespace RSA.DesktopUI.Library.Api
         {
             _apiClient = new HttpClient();
 
-            string apiPath = ConfigurationManager.AppSettings["api"];
+            string apiPath = _config.GetValue<string>("api");
             _apiClient.BaseAddress = new Uri(uriString: apiPath);
 
             _apiClient.DefaultRequestHeaders.Accept.Clear();
             _apiClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
         }
 
         public async Task<AuthenticatedUser> Authenticate(string username, string password)

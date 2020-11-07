@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Windows;
 using AutoMapper;
 using Caliburn.Micro;
+using Microsoft.Extensions.Configuration;
 using RSA.DesktopUI.Library.Api;
-using RSA.DesktopUI.Library.Helpers;
 using RSA.DesktopUI.Library.Models;
 using RSA.DesktopUI.Models;
 using RSA.DesktopUI.ViewModels;
@@ -30,6 +31,20 @@ namespace RSA.DesktopUI
             return mapper;
         }
 
+        private IConfiguration AddConfiguration()
+        {
+            IConfigurationBuilder builder = 
+                new ConfigurationBuilder()
+                   .SetBasePath(Directory.GetCurrentDirectory())
+                   .AddJsonFile("appsettings.json");
+#if DEBUG
+            builder.AddJsonFile("appsettings.Development.json",optional:true, reloadOnChange:true);
+#else
+            builder.AddJsonFile("appsettings.Production.json",optional:true, reloadOnChange:true);
+#endif
+            return builder.Build();
+        }
+
         protected override void Configure()
         {
             IMapper mapper = ConfigureAutoMapper();
@@ -44,8 +59,9 @@ namespace RSA.DesktopUI
                 .Singleton<IWindowManager, WindowManager>()
                 .Singleton<IEventAggregator, EventAggregator>()
                 .Singleton<ILoggedInUserModel, LoggedInUserModel>()
-                .Singleton<IConfigHelper, ConfigHelper>()
                 .Singleton<IApiHelper, ApiHelper>();
+
+            _container.RegisterInstance(typeof(IConfiguration), "IConfiguration",AddConfiguration());
 
             //TODO change it later to something more ordinary
 

@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 using System.Windows;
 using AutoMapper;
 using Caliburn.Micro;
+using Microsoft.Extensions.Configuration;
 using RSA.DesktopUI.Library.Api;
-using RSA.DesktopUI.Library.Helpers;
 using RSA.DesktopUI.Library.Models;
 using RSA.DesktopUI.Models;
 
@@ -19,21 +19,21 @@ namespace RSA.DesktopUI.ViewModels
         private readonly IProductEndpoint _productEndpoint;
         private readonly ISaleEndpoint _saleEndpoint;
         private readonly IMapper _mapper;
-        private readonly IConfigHelper _configHelper;
+        private readonly IConfiguration _config;
         private readonly StatusInfoViewModel _status;
         private readonly IWindowManager _window;
 
         public SalesViewModel(IProductEndpoint productEndpoint,
                               ISaleEndpoint saleEndpoint,
                               IMapper mapper,
-                              IConfigHelper configHelper,
+                              IConfiguration config,
                               StatusInfoViewModel status,
                               IWindowManager window)
         {
             _productEndpoint = productEndpoint;
             _saleEndpoint = saleEndpoint;
             _mapper = mapper;
-            _configHelper = configHelper;
+            _config = config;
             _status = status;
             _window = window;
         }
@@ -140,7 +140,7 @@ namespace RSA.DesktopUI.ViewModels
 
         private decimal CalculateTax()
         {
-            decimal taxRate = _configHelper.GetTaxRate();
+            decimal taxRate = _config.GetValue<decimal>("taxRate");
             return Cart
                     .Where(x => x.Product.IsTaxable)
                     .Sum(x => x.Product.RetailPrice * x.QuantityInCart * taxRate);
