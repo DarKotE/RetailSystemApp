@@ -18,7 +18,8 @@ namespace RSA.WebServer.Controllers
             _productData = productData;
         }
         [HttpGet]
-        public List<ProductModel> Get()
+        [Route("GetAllProducts")]
+        public List<ProductModel> GetAllProducts()
         {
             return _productData.GetProducts();
         }

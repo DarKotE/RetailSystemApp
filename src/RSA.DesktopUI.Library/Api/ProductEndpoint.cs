@@ -16,7 +16,7 @@ namespace RSA.DesktopUI.Library.Api
 
         public async Task<List<ProductModel>> GetAll()
         {
-            using HttpResponseMessage response = await _apiHelper.ApiClient.GetAsync("/api/Product");
+            using HttpResponseMessage response = await _apiHelper.ApiClient.GetAsync("/api/Product/GetAllProducts");
             if (response.IsSuccessStatusCode)
             {
                 return await response.Content.ReadAsAsync<List<ProductModel>>();
